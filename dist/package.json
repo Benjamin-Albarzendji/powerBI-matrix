@@ -1,0 +1,17 @@
+{
+		"version": "1.0.0.0",
+		"author": {"name":"Benjamin Albarzendji","email":"benjamin.albarzendji@gmail.com"},
+		"resources": [
+			{
+				"resourceId": "rId0",
+				"sourceType": 5,
+				"file": "resources/matrix536CE78271534AA9A8B6B09EF2631846.pbiviz.json"
+			}
+		],
+		"visual": {"name":"matrix","displayName":"Matrix","guid":"matrix536CE78271534AA9A8B6B09EF2631846","visualClassName":"Visual","version":"1.0.0.0","description":"A table visual with a high level of customization.","supportUrl":"www.gitHub.com/benjamin-albarzendji","gitHubUrl":""},
+		"metadata": {
+			"pbivizjson": {
+				"resourceId": "rId0"
+			}
+		}
+	}

@@ -1,0 +1,10230 @@
+{
+  "privileges": [
+    {
+      "name": "ExportContent",
+      "essential": true
+    }
+  ],
+  "dataRoles": [
+    {
+      "name": "Rows",
+      "displayName": "Rows",
+      "displayNameKey": "Visual_Rows",
+      "kind": "Grouping"
+    },
+    {
+      "name": "Columns",
+      "displayName": "Columns",
+      "displayNameKey": "Visual_Columns",
+      "kind": "Grouping"
+    },
+    {
+      "name": "Value",
+      "displayName": "Values",
+      "displayNameKey": "Visual_Values",
+      "kind": "Measure"
+    }
+  ],
+  "dataViewMappings": [
+    {
+      "conditions": [
+        {
+          "Rows": { "max": 1 },
+          "Columns": { "min": 0, "max": 1 },
+          "Value": { "max": 1 }
+        },
+        {
+          "Rows": { "max": 20 },
+          "Columns": { "max": 0 },
+          "Value": { "max": 20 }
+        }
+      ],
+
+      "matrix": {
+        "rows": {
+          "for": {
+            "in": "Rows"
+          },
+          "dataReductionAlgorithm": {
+            "top": {
+              "count": 30000
+            }
+          }
+        },
+        "columns": {
+          "for": {
+            "in": "Columns"
+          },
+          "dataReductionAlgorithm": {
+            "top": {
+              "count": 200
+            }
+          }
+        },
+        "values": {
+          "select": [
+            {
+              "for": {
+                "in": "Value"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+
+  "objects": {
+    "general": {
+      "displayName": "General",
+      "displayNameKey": "formattingGeneral"
+    },
+
+    "expansion": {
+      "properties": {
+        "enableButtons": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableExpansionUp": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "enableIndentation": {
+          "type": {
+            "bool": true
+          }
+        },
+        "indentationValue": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+
+    "rows": {
+      "properties": {
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+
+    "rowHeaders": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        }
+      }
+    },
+
+    "colHeaders": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        }
+      }
+    },
+
+    "columns": {
+      "properties": {
+        "autoSizeColumns": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        }
+      }
+    },
+
+    "specificRow1": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+    "specificRow2": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow3": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow4": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow5": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow6": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow7": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow8": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow9": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow10": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow11": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow12": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow13": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow14": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow15": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow16": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow17": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow18": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow19": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow20": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow21": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow22": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow23": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow24": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow25": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow26": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow27": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow28": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow29": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+    "specificRow30": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow31": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },"specificRow0": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
+
+    "specificColumn2": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "specificColumn1": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "specificColumn0": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn3": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn4": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn5": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn6": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn7": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn8": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn9": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn10": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn11": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn12": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn13": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn14": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn15": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn16": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn17": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn18": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn19": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn20": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn21": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn22": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn23": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn24": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn25": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn26": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn27": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn28": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn29": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+    "specificColumn30": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableRightBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableLeftBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "columnFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "columnHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "columnHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "columnHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "columnHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "columnHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "subTotals": {
+      "displayName": "Subtotals",
+      "properties": {
+        "rowSubtotals": {
+          "type": {
+            "bool": true
+          },
+          "displayName": "Row subtotals",
+          "description": "Show subtotals for all row groups",
+          "suppressFormatPainterCopy": true
+        },
+        "perRowLevel": {
+          "displayName": "Per row level",
+          "type": {
+            "bool": true
+          },
+          "suppressFormatPainterCopy": true
+        },
+        "columnSubtotals": {
+          "type": {
+            "bool": true
+          },
+          "displayName": "Column subtotals",
+          "description": "Show subtotals for all column groups",
+          "suppressFormatPainterCopy": true
+        },
+        "perColumnLevel": {
+          "displayName": "Per column level",
+          "type": {
+            "bool": true
+          },
+          "suppressFormatPainterCopy": true
+        },
+        "levelSubtotalEnabled": {
+          "type": {
+            "bool": true
+          }
+        }
+      }
+    }
+  },
+
+  "subtotals": {
+    "matrix": {
+      "rowSubtotals": {
+        "propertyIdentifier": {
+          "objectName": "subTotals",
+          "propertyName": "rowSubtotals"
+        },
+        "defaultValue": true
+      },
+      "rowSubtotalsPerLevel": {
+        "propertyIdentifier": {
+          "objectName": "subTotals",
+          "propertyName": "perRowLevel"
+        },
+        "defaultValue": false
+      },
+      "columnSubtotals": {
+        "propertyIdentifier": {
+          "objectName": "subTotals",
+          "propertyName": "columnSubtotals"
+        },
+        "defaultValue": true
+      },
+      "columnSubtotalsPerLevel": {
+        "propertyIdentifier": {
+          "objectName": "subTotals",
+          "propertyName": "perColumnLevel"
+        },
+        "defaultValue": false
+      },
+      "levelSubtotalEnabled": {
+        "propertyIdentifier": {
+          "objectName": "subTotals",
+          "propertyName": "levelSubtotalEnabled"
+        },
+        "defaultValue": true
+      },
+      "rowSubtotalsType": {
+        "propertyIdentifier": {
+          "objectName": "subtotals",
+          "propertyName": "rowSubtotalsType"
+        },
+        "defaultValue": "Bottom"
+      }
+    }
+  },
+
+  "expandCollapse": {
+    "roles": ["Rows"],
+    "addDataViewFlags": {
+      "defaultValue": true
+    }
+  },
+
+  "drilldown": {
+    "roles": ["Columns", "Rows"]
+  },
+
+  "sorting": {
+    "default": {},
+    "custom": {}
+  },
+  "advancedEditModeSupport": 2,
+  "supportsEmptyDataView": true,
+  "supportsLandingPage": true,
+  "supportsMultiVisualSelection": true,
+  "supportsKeyboardFocus": true,
+  "suppressDefaultTitle": true
+}

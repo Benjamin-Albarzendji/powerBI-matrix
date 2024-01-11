@@ -1,0 +1,214 @@
+.datagrid table {
+  border-collapse: collapse;
+  text-align: left;
+  width: 100%;
+}
+.datagrid {
+  font: normal 12px/150% Arial, Helvetica, sans-serif;
+  background: #fff;
+  overflow: scroll;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.datagrid table td,
+.datagrid table th {
+  padding: 3px 10px;
+}
+.datagrid table thead th {
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.05, #006699),
+    color-stop(1, #00557f)
+  );
+  background: -moz-linear-gradient(center top, #006699 5%, #00557f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+  background-color: #006699;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: bold;
+  border-left: 1px solid #0070a8;
+}
+.datagrid table thead th:first-child {
+  border: none;
+}
+.datagrid table tbody td {
+  color: #00557f;
+  border-left: 1px solid #e1eef4;
+  font-size: 12px;
+  font-weight: normal;
+}
+.datagrid table tbody .alt td {
+  background: #e1eef4;
+  color: #00557f;
+}
+.datagrid table tbody td:first-child {
+  border-left: none;
+}
+.datagrid table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.datagrid table tfoot td div {
+  border-top: 1px solid #006699;
+  background: #e1eef4;
+}
+.datagrid table tfoot td {
+  padding: 0;
+  font-size: 12px;
+}
+.datagrid table tfoot td div {
+  padding: 2px;
+}
+.datagrid table tfoot td ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+}
+.datagrid table tfoot li {
+  display: inline;
+}
+.datagrid table tfoot li a {
+  text-decoration: none;
+  display: inline-block;
+  padding: 2px 8px;
+  margin: 1px;
+  color: #ffffff;
+  border: 1px solid #006699;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 2px;
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0.05, #006699),
+    color-stop(1, #00557f)
+  );
+  background: -moz-linear-gradient(center top, #006699 5%, #00557f 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
+  background-color: #006699;
+}
+.datagrid table tfoot ul.active,
+.datagrid table tfoot ul a:hover {
+  text-decoration: none;
+  border-color: #00557f;
+  color: #ffffff;
+  background: none;
+  background-color: #006699;
+}
+div.dhtmlx_window_active,
+div.dhx_modal_cover_dv {
+  position: fixed !important;
+}
+
+.line1 {
+  border-bottom: 1px solid #e1eef4;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  order: -5;
+}
+
+.ag-theme-alpine,
+.ag-theme-balham,
+.ag-theme-quartz {
+  height: 100%;
+}
+
+.ag-root-wrapper {
+  border: none !important;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 13.33px;
+}
+
+.ag-header-cell:hover {
+  background-color: #4846441b;
+}
+
+.ag-header-row .ag-header-cell:first-of-type .ag-header-cell-text {
+  align-items: center !important;
+}
+
+.ag-header-cell-text {
+  width: 100%;
+  display: flex;
+
+  // font-size: 13px !important;
+}
+
+.ag-header-cell-label {
+  display: flex;
+}
+
+.ag-header {
+  border: none !important;
+}
+
+.ag-header-row {
+  border: none !important;
+}
+
+.ag-header-container {
+  border: none !important;
+}
+
+.categoryCell {
+  text-align: start;
+  // background-color: white; Why is this here?
+  // border-right: 2px solid #118dff !important;
+  // border-top: none !important;
+  // border-bottom: none !important;
+
+  // font-size: 13px !important;
+  display: flex !important;
+
+  align-items: center !important;
+}
+.categoryCell:hover {
+  background-color: #4846441b;
+}
+
+.gridCell {
+  text-align: end;
+  // background-color: blue;
+  // font-size: 13px !important;
+  display: flex !important;
+  // justify-content: flex-end;
+  align-items: center !important;
+}
+
+.gridCell:hover {
+  background-color: #4846441b;
+}
+
+.expandButton {
+  position: absolute;
+  top: 17%;
+  width: 10px;
+  height: 10px;
+  font-size: 9px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  border: solid 0.5px black;
+  border-radius: 3px;
+}
+
+.ag-center-cols-viewport {
+  background-color: white;
+}
+
+.ag-theme-alpine {
+  height: 100%;
+  --ag-foreground-color: rgb(9, 2, 10) !important;
+  --ag-background-color: rgba(221, 9, 9, 0) !important;
+  --ag-header-foreground-color: rgb(0, 0, 0) !important;
+  --ag-header-background-color: rgb(255, 255, 255) !important;
+
+  --ag-row-border-style: none !important;
+  --ag-border-color: #118dff !important;
+}
