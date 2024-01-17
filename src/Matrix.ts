@@ -74,7 +74,7 @@ export class Matrix {
 
     // suppressMaxRenderedRowRestriction:true,
     // suppressRowVirtualisation: true,
-    rowBuffer: 10,
+    rowBuffer: 50,
 
     // If this is not enabled, the eventlisteners on the columns will not work when you have a lot of columns
     //that warrants a horizontal scroller. This should not be an issue most of the time if performance suffers
@@ -591,7 +591,7 @@ export class Matrix {
       rowData.push(rowObj);
     });
 
-    console.log(rowData);
+    // console.log(rowData);
 
     // We fix the last row header of "Total" by getting the length of the array and changing the name on the last object. Other wise it will remain blank
     const lengthOfRowData = rowData.length;
@@ -1153,7 +1153,7 @@ export class Matrix {
 
   // This functions formats the expanded rows.
   private static formatExpandedRows() {
-    console.log(this.formattingSettings);
+    // console.log(this.formattingSettings);
     // Get all the rows
     const rows = document.querySelectorAll('.ag-row');
 
@@ -1399,7 +1399,7 @@ export class Matrix {
 
       // Ensure the style is different otherwise apply it. To avoid re-rendering
       if (updatedStyle == currentStyle) {
-        console.log('SAME!');
+        // console.log('SAME!');
         continue;
       }
 
