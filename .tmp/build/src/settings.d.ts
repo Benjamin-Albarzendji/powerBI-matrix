@@ -122,7 +122,6 @@ declare class SpecificColumnSettingsCard extends FormattingSettingsCard {
  *
  */
 export declare class VisualFormattingSettingsModel extends FormattingSettingsModel {
-    3: any;
     expansionCard: ExpansionSettingsCard;
     rowCard: RowSettingsCard;
     rowHeadersCard: RowHeadersSettingsCard;

@@ -962,7 +962,7 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
  *
  */
 export class VisualFormattingSettingsModel extends FormattingSettingsModel {
-  3;
+  
   // Create formatting settings model formatting cards
   expansionCard = new ExpansionSettingsCard('expansion', 'Row Expansion');
   rowCard = new RowSettingsCard('rows', 'Row Formatting');
@@ -983,9 +983,13 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
     this.specificColumnCard,
   ];
 
+  
+
   constructor() {
-    console.log('The dataview is: ', dataView);
     super();
+
+    // Remove Specific Column Card that for some reason has to be added up there otherwise the loop for all specific columns won't work
+    this.cards.pop()
 
     // Sort the dataview to always get a predictable specific row order & column order otherwise sorting via powerBi will mess up the settings
     sortDataViewRows();
@@ -1001,6 +1005,7 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
           new SpecificRowSettingsCard(`specificRow${rowIterator}`, `Row Total`)
         );
       }
+      // Else add all the cards
       this.cards.push(
         new SpecificRowSettingsCard(`specificRow${rowIterator}`, `Row ${child}`)
       );
@@ -1008,8 +1013,10 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
       rowIterator++;
     }
 
-    // Remove last card as it is undefined
+    // Remove undefined card
     this.cards.pop();
+
+    
 
     // Row iterator for columns
     let columnIterator = 0;

@@ -74,7 +74,7 @@ export class Matrix {
 
     // suppressMaxRenderedRowRestriction:true,
     // suppressRowVirtualisation: true,
-    rowBuffer: 50,
+    rowBuffer: 10,
 
     // If this is not enabled, the eventlisteners on the columns will not work when you have a lot of columns
     //that warrants a horizontal scroller. This should not be an issue most of the time if performance suffers
@@ -120,11 +120,11 @@ export class Matrix {
       // Format column headers
       this.formatColHeaders();
 
-      // Format specific rows
-      this.formatSpecificRows();
-
       // Format specific columns
       this.formatSpecificColumns();
+
+      // Format specific rows
+      this.formatSpecificRows();
     },
 
     onViewportChanged: (params) => {
@@ -143,11 +143,11 @@ export class Matrix {
       // Format rowheaders
       this.formatRowHeaders();
 
-      // Format specific rows
-      this.formatSpecificRows();
-
       // Format specific columns
       this.formatSpecificColumns();
+
+      // Format specific rows
+      this.formatSpecificRows();
     },
 
     // rowSelection: 'multiple', // allow rows to be selected
@@ -1335,80 +1335,88 @@ export class Matrix {
     const rows = document.querySelectorAll('.ag-row');
 
     // Get the row font
-    const font = this.formattingSettings.rowCard.fontFamily.value;
+    const font = this.formattingSettings.rowCard.fontFamily.value.split(',')[0];
 
     // Get the row font size
     const fontSize = this.formattingSettings.rowCard.fontSize.value;
 
     // Get the row font color
-    const fontColor = this.formattingSettings.rowCard.fontColor.value.value;
+    const fontColor = hex2rgba(
+      this.formattingSettings.rowCard.fontColor.value.value
+    );
 
     // Get the bold value
-    const bold = this.formattingSettings.rowCard.enableBold.value;
+    const bold = this.formattingSettings.rowCard.enableBold.value
+      ? 'bold'
+      : 'normal';
 
     // Get the italic value
-    const italic = this.formattingSettings.rowCard.enableItalic.value;
+    const italic = this.formattingSettings.rowCard.enableItalic.value
+      ? 'italic'
+      : 'normal';
 
     // Get the background color
-    const backgroundColor =
-      this.formattingSettings.rowCard.backgroundColor.value.value;
+    const backgroundColor = hex2rgba(
+      this.formattingSettings.rowCard.backgroundColor.value.value
+    );
 
     // Get the border width
     const borderWidth = this.formattingSettings.rowCard.borderWidth.value;
 
     // Get the border color
-    const borderColor = this.formattingSettings.rowCard.borderColor.value.value;
+    const borderColor = hex2rgba(
+      this.formattingSettings.rowCard.borderColor.value.value
+    );
 
     // Get the border style
     const borderStyle = this.formattingSettings.rowCard.borderStyle.value.value;
 
     // Get the Top border enabled
-    const topBorder = this.formattingSettings.rowCard.enableTopBorder.value;
+    const topBorder = this.formattingSettings.rowCard.enableTopBorder.value
+      ? `${borderStyle}`
+      : 'none';
 
     // Get alignment
     const alignment = this.formattingSettings.rowCard.alignment.value.value;
 
     // Get the Bottom border enabled
-    const bottomBorder =
-      this.formattingSettings.rowCard.enableBottomBorder.value;
+    const bottomBorder = this.formattingSettings.rowCard.enableBottomBorder
+      .value
+      ? `${borderStyle}`
+      : 'none';
 
     for (const row of Object(rows)) {
-      // Set the row font
-      row.style.fontFamily = font;
+      // Apply the formatting to the row via CSS-text for a one time style change rather than X amount of style renders
 
-      // Set the row font size
+      // Get the current style and apply it to the row with the other styles (This is to avoid overriding the other styles)
+      const currentStyle = row.getAttribute('style').replaceAll('"', "'");
 
-      row.style.fontSize = `${fontSize}px`;
+      // Split thr style to get transpose ([0]) and height ([1])
+      const currentStyleSplit = currentStyle.split(';');
 
-      // Set the row font color
+      // The updated style
+      const updatedStyle = `${currentStyleSplit[0]};${currentStyleSplit[1]}; font-family: ${font}; font-size: ${fontSize}px; color: ${fontColor}; background-color: ${backgroundColor}; border-top: ${borderWidth}px ${topBorder} ${borderColor}; border-bottom: ${borderWidth}px ${bottomBorder} ${borderColor}; font-weight: ${bold}; font-style: ${italic};`;
 
-      row.style.color = fontColor;
-
-      // Set the bold
-      if (bold) {
-        row.style.fontWeight = 'bold';
+      // Ensure the style is different otherwise apply it. To avoid re-rendering
+      if (updatedStyle == currentStyle) {
+        console.log('SAME!');
+        continue;
       }
 
-      // Set the italic
-      if (italic) {
-        row.style.fontStyle = 'italic';
-      }
+      // Set all the styles at once to avoid re-rendering the object multiple times
+      row.style = updatedStyle;
 
-      // Set the background color
-      row.style.backgroundColor = backgroundColor;
-
-      // Set the top border
-      if (topBorder) {
-        row.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-
-      // Set the bottom border
-      if (bottomBorder) {
-        row.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-
-      // Set alignment
+      // Set alignment via loop
       for (const child of row.children) {
+        // Make sure child does not have the same style applied to avoid re-rendering
+        const currentAlignment = getComputedStyle(child)['justify-content'];
+
+        // The logical check for the style
+        if (currentAlignment === alignment) {
+          continue;
+        }
+
+        // else apply it
         child.style.justifyContent = alignment;
       }
     }
@@ -1434,10 +1442,14 @@ export class Matrix {
       this.formattingSettings.rowHeadersCard.fontColor.value.value;
 
     // Get the bold value
-    const bold = this.formattingSettings.rowHeadersCard.enableBold.value;
+    const bold = this.formattingSettings.rowHeadersCard.enableBold.value
+      ? 'bold'
+      : 'normal';
 
     // Get the italic value
-    const italic = this.formattingSettings.rowHeadersCard.enableItalic.value;
+    const italic = this.formattingSettings.rowHeadersCard.enableItalic.value
+      ? 'italic'
+      : 'normal';
 
     // Get the background color
     const backgroundColor =
@@ -1456,20 +1468,26 @@ export class Matrix {
       this.formattingSettings.rowHeadersCard.borderStyle.value.value;
 
     // Get the Top border enabled
-    const topBorder =
-      this.formattingSettings.rowHeadersCard.enableTopBorder.value;
+    const topBorder = this.formattingSettings.rowHeadersCard.enableTopBorder
+      .value
+      ? `${borderStyle}`
+      : 'none';
 
     // Get the right border enabled
-    const rightBorder =
-      this.formattingSettings.rowHeadersCard.enableRightBorder.value;
+    const rightBorder = this.formattingSettings.rowHeadersCard.enableRightBorder
+      .value
+      ? `${borderStyle}`
+      : 'none';
 
     // Get alignment
     const alignment =
       this.formattingSettings.rowHeadersCard.alignment.value.value;
 
     // Get the Bottom border enabled
-    const bottomBorder =
-      this.formattingSettings.rowHeadersCard.enableBottomBorder.value;
+    const bottomBorder = this.formattingSettings.rowHeadersCard
+      .enableBottomBorder.value
+      ? `${borderStyle}`
+      : 'none';
 
     for (const row of Object(rows)) {
       // Set the row font
@@ -1499,16 +1517,14 @@ export class Matrix {
       // Set the top border
       if (topBorder) {
         row.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-      else {
+      } else {
         row.style.borderTop = 'none';
       }
 
       // Set the bottom border
       if (bottomBorder) {
         row.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-      else{
+      } else {
         row.style.borderBottom = 'none';
       }
 
@@ -1860,8 +1876,6 @@ export class Matrix {
         continue;
       }
 
-      console.log(card);
-
       // Split the displayName and take the second element
       const displayNameArray = card.displayName.split(' ');
 
@@ -1970,12 +1984,11 @@ export class Matrix {
             ? `${borderWidth}px ${borderStyle} ${borderColor}`
             : 'none';
 
-            child.style.borderBottom = "none"
-            child.style.borderTop = "none"
+          child.style.borderBottom = 'none';
+          child.style.borderTop = 'none';
 
           // child.style.fontFamily = font;
           // child.style.fontSize = `${fontSize}px`;
-          
         }
 
         // Apply to the headerParent from the header variables
@@ -1998,13 +2011,18 @@ export class Matrix {
 
         const difference = columnWidth - currentWidth;
 
-        console.log(difference)
+        console.log(difference);
 
-          console.log(currentWidth,columnWidth)
+        console.log(currentWidth, columnWidth);
 
         // Apply the margin
         // headerParent.style.marginRight = `${columnWidth-difference}px`;
       }
     }
   }
+}
+
+function hex2rgba(hex, alpha = 1) {
+  const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
+  return `rgb(${r}, ${g}, ${b})`;
 }
