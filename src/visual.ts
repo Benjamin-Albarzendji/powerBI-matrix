@@ -87,7 +87,6 @@ export class Visual implements IVisual {
 
     // CHECK IF THIS WORKS OUT
     // console.log(this.selectionManager.hasSelection())
-    
 
     this.formattingSettings =
       this.formattingSettingsService.populateFormattingSettingsModel(
@@ -129,8 +128,6 @@ export class Visual implements IVisual {
 
         this.target.removeChild(this.target.firstChild);
       }
-
-     
 
       this.target.appendChild(
         Matrix.populateMatrixInformation(

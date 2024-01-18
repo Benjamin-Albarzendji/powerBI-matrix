@@ -82,6 +82,18 @@
 
     "expansion": {
       "properties": {
+        "opacity": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "height": {
+          "type": {
+            "numeric": true
+          }
+        },
+
         "enableButtons": {
           "type": {
             "bool": true
@@ -193,6 +205,18 @@
 
     "rows": {
       "properties": {
+        "opacity": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "height": {
+          "type": {
+            "numeric": true
+          }
+        },
+
         "enableBold": {
           "type": {
             "bool": true
@@ -286,6 +310,12 @@
         "enableCard": {
           "type": {
             "bool": true
+          }
+        },
+
+        "opacity": {
+          "type": {
+            "numeric": true
           }
         },
 
@@ -804,7 +834,8 @@
           }
         }
       }
-    },"specificRow3": {
+    },
+    "specificRow3": {
       "properties": {
         "enableCard": {
           "type": {
@@ -952,7 +983,8 @@
           }
         }
       }
-    },"specificRow4": {
+    },
+    "specificRow4": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1100,7 +1132,8 @@
           }
         }
       }
-    },"specificRow5": {
+    },
+    "specificRow5": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1248,7 +1281,8 @@
           }
         }
       }
-    },"specificRow6": {
+    },
+    "specificRow6": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1396,7 +1430,8 @@
           }
         }
       }
-    },"specificRow7": {
+    },
+    "specificRow7": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1544,7 +1579,8 @@
           }
         }
       }
-    },"specificRow8": {
+    },
+    "specificRow8": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1692,7 +1728,8 @@
           }
         }
       }
-    },"specificRow9": {
+    },
+    "specificRow9": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1840,7 +1877,8 @@
           }
         }
       }
-    },"specificRow10": {
+    },
+    "specificRow10": {
       "properties": {
         "enableCard": {
           "type": {
@@ -1988,7 +2026,8 @@
           }
         }
       }
-    },"specificRow11": {
+    },
+    "specificRow11": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2136,7 +2175,8 @@
           }
         }
       }
-    },"specificRow12": {
+    },
+    "specificRow12": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2284,7 +2324,8 @@
           }
         }
       }
-    },"specificRow13": {
+    },
+    "specificRow13": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2432,7 +2473,8 @@
           }
         }
       }
-    },"specificRow14": {
+    },
+    "specificRow14": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2580,7 +2622,8 @@
           }
         }
       }
-    },"specificRow15": {
+    },
+    "specificRow15": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2728,7 +2771,8 @@
           }
         }
       }
-    },"specificRow16": {
+    },
+    "specificRow16": {
       "properties": {
         "enableCard": {
           "type": {
@@ -2876,7 +2920,8 @@
           }
         }
       }
-    },"specificRow17": {
+    },
+    "specificRow17": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3024,7 +3069,8 @@
           }
         }
       }
-    },"specificRow18": {
+    },
+    "specificRow18": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3172,7 +3218,8 @@
           }
         }
       }
-    },"specificRow19": {
+    },
+    "specificRow19": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3320,7 +3367,8 @@
           }
         }
       }
-    },"specificRow20": {
+    },
+    "specificRow20": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3468,7 +3516,8 @@
           }
         }
       }
-    },"specificRow21": {
+    },
+    "specificRow21": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3616,7 +3665,8 @@
           }
         }
       }
-    },"specificRow22": {
+    },
+    "specificRow22": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3764,7 +3814,8 @@
           }
         }
       }
-    },"specificRow23": {
+    },
+    "specificRow23": {
       "properties": {
         "enableCard": {
           "type": {
@@ -3912,7 +3963,8 @@
           }
         }
       }
-    },"specificRow24": {
+    },
+    "specificRow24": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4060,7 +4112,8 @@
           }
         }
       }
-    },"specificRow25": {
+    },
+    "specificRow25": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4208,7 +4261,8 @@
           }
         }
       }
-    },"specificRow26": {
+    },
+    "specificRow26": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4356,7 +4410,8 @@
           }
         }
       }
-    },"specificRow27": {
+    },
+    "specificRow27": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4504,7 +4559,8 @@
           }
         }
       }
-    },"specificRow28": {
+    },
+    "specificRow28": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4652,7 +4708,8 @@
           }
         }
       }
-    },"specificRow29": {
+    },
+    "specificRow29": {
       "properties": {
         "enableCard": {
           "type": {
@@ -4949,7 +5006,8 @@
           }
         }
       }
-    },"specificRow31": {
+    },
+    "specificRow31": {
       "properties": {
         "enableCard": {
           "type": {
@@ -5097,7 +5155,8 @@
           }
         }
       }
-    },"specificRow0": {
+    },
+    "specificRow0": {
       "properties": {
         "enableCard": {
           "type": {

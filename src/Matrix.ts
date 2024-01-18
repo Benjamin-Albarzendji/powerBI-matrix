@@ -8,7 +8,7 @@ import ISelectionManager = powerbi.extensibility.ISelectionManager;
 import IVisualHost = powerbi.extensibility.visual.IVisualHost;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import { valueFormatter } from 'powerbi-visuals-utils-formattingutils';
-import { max } from 'd3';
+import { line, max } from 'd3';
 import { getMaxWordWidth } from 'powerbi-visuals-utils-formattingutils/lib/src/wordBreaker';
 
 export class Matrix {
@@ -62,6 +62,9 @@ export class Matrix {
     // Grab the rowData
     rowData: this.rowData,
 
+    // Default rowHeight is 25
+    rowHeight: 25,
+
     // Default col def properties get applied to all columns
     defaultColDef: {
       resizable: false,
@@ -74,7 +77,7 @@ export class Matrix {
 
     // suppressMaxRenderedRowRestriction:true,
     // suppressRowVirtualisation: true,
-    rowBuffer: 50,
+    rowBuffer: 10,
 
     // If this is not enabled, the eventlisteners on the columns will not work when you have a lot of columns
     //that warrants a horizontal scroller. This should not be an issue most of the time if performance suffers
@@ -115,7 +118,7 @@ export class Matrix {
       this.formatExpandedRows();
 
       // Format rowheaders
-      this.formatRowHeaders();
+      // this.formatRowHeaders();
 
       // Format column headers
       this.formatColHeaders();
@@ -131,8 +134,8 @@ export class Matrix {
       // Add expand buttons and format them
       this.AddExpandButtons();
 
-      // Format the columns
-      this.formatColumns(this.gridOptions);
+      // Format the columns THIS SHOULD BE DISABLED FOR PERFORMANCE AS IT IS VERY EXPENSIVE TO RUN ON VIEWPORT CHANGES (WHICH HAPPENS A LOT ON SCROLLING)
+      // this.formatColumns(this.gridOptions);
 
       // Format all the rows
       this.formatRows();
@@ -141,7 +144,7 @@ export class Matrix {
       this.formatExpandedRows();
 
       // Format rowheaders
-      this.formatRowHeaders();
+      // this.formatRowHeaders();
 
       // Format specific columns
       this.formatSpecificColumns();
@@ -333,15 +336,43 @@ export class Matrix {
       }
     }
 
-    // // Assuming a row exists
-    // try {
-    //   // dynamicHeader = dataView.metadata.columns[0].displayName;
-    // } catch {
+    // Set the rowHeight from the rowCard formatting settings (Has to be separate for the API)
+    this.gridOptions.rowHeight = this.formattingSettings.rowCard.height.value;
 
-    //   console.log("CAUGHT")
-    //   // Else it is only a measure, this title will most likely not be used as it can be looped through the valueSources in the dataview
-    //   dynamicHeader = matrix.valueSources[0].displayName;
-    // }
+    // Create an object to hold CSS styling from the rowCard formatting settings
+    const rowCard = this.formattingSettings.rowCard;
+    const gridCellStyling = {
+      justifyContent: rowCard.alignment.value.value,
+      color: rowCard.fontColor.value.value,
+      fontFamily: rowCard.fontFamily.value,
+      fontSize: `${rowCard.fontSize.value}px`,
+      fontWeight: rowCard.enableBold.value ? 'bold' : 'normal',
+      fontStyle: rowCard.enableItalic.value ? 'italic' : 'normal',
+    };
+
+    // Formatting for the rowHeadersCard (The first column)
+    const rowHeadersCard = this.formattingSettings.rowHeadersCard;
+    const categoryCellStyling = {
+      justifyContent: rowHeadersCard.alignment.value.value,
+      backgroundColor: hex2rgba(
+        rowHeadersCard.backgroundColor.value.value,
+        rowHeadersCard.opacity.value
+      ),
+      fontWeight: rowHeadersCard.enableBold.value ? 'bold' : 'normal',
+      fontStyle: rowHeadersCard.enableItalic.value ? 'italic' : 'normal',
+      color: rowHeadersCard.fontColor.value.value,
+      fontSize: `${rowHeadersCard.fontSize.value}px`,
+      fontFamily: rowHeadersCard.fontFamily.value,
+      borderRight: rowHeadersCard.enableRightBorder.value
+        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        : 'none',
+      borderTop: rowHeadersCard.enableTopBorder.value
+        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        : 'none',
+      borderBottom: rowHeadersCard.enableBottomBorder.value
+        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        : 'none',
+    };
 
     // A singular measure (or multiple measures) without any columns or rows
     if (
@@ -354,6 +385,7 @@ export class Matrix {
         columnDefs.push({
           field: source.displayName,
           colId: colId++,
+          cellStyle: gridCellStyling,
           cellClass: 'gridCell',
         });
       });
@@ -369,6 +401,9 @@ export class Matrix {
         field: dynamicHeader,
         colId: colId++,
         cellClass: 'categoryCell',
+        cellStyle: rowHeadersCard.enableCard.value
+          ? categoryCellStyling
+          : gridCellStyling,
       });
 
       // Loop through the columns in the metadata list. Ensure the loop skips a repeat of the first column.
@@ -393,6 +428,7 @@ export class Matrix {
         columnDefs.push({
           field: column.displayName,
           colId: colId++,
+          cellStyle: gridCellStyling,
           cellClass: 'gridCell',
         });
       });
@@ -404,6 +440,9 @@ export class Matrix {
         field: dynamicHeader,
         colId: colId++,
         cellClass: 'categoryCell',
+        cellStyle: rowHeadersCard.enableCard.value
+          ? categoryCellStyling
+          : gridCellStyling,
       });
 
       // Iterates through the column children
@@ -412,6 +451,7 @@ export class Matrix {
           field: column.value,
           colId: colId++,
           cellClass: 'gridCell',
+          cellStyle: gridCellStyling,
         });
       });
 
@@ -591,7 +631,7 @@ export class Matrix {
       rowData.push(rowObj);
     });
 
-    // console.log(rowData);
+    console.log(rowData);
 
     // We fix the last row header of "Total" by getting the length of the array and changing the name on the last object. Other wise it will remain blank
     const lengthOfRowData = rowData.length;
@@ -966,15 +1006,6 @@ export class Matrix {
     });
   }
 
-  // // sizes columns to fit to the current container space /FIXXXX PERHAPS DELETE OR CHANGE TO THE OTHER COLUMN SIZER
-  // FIX FIX FIX FIX FIX
-  // public static formatRows() {
-
-  //   let gridOptions = this.gridOptions;
-
-  //   gridOptions.api.sizeColumnsToFit();
-  // }
-
   // Clears the grid in preparation for a new set of data
   public static clearGrid() {
     this.gridOptions.api.setRowData([]);
@@ -1132,7 +1163,7 @@ export class Matrix {
           button.style.left = `${(nodeLevel + 1) * 10}px`;
 
           // Append to the div
-          rowHeaderDIV.appendChild(button);
+          rowHeaderDIV.insertBefore(button, rowHeaderDIV.firstChild);
         }
       }
     }
@@ -1153,28 +1184,32 @@ export class Matrix {
 
   // This functions formats the expanded rows.
   private static formatExpandedRows() {
-    // console.log(this.formattingSettings);
+    console.log(this.formattingSettings);
+
+    // IF checks to make sure function is not running needlessly
+    if (
+      !this.dataView.matrix.columns.root.hasOwnProperty(
+        'childIdentityFields'
+      ) &&
+      !this.dataView.matrix.rows.root.hasOwnProperty('childIdentityFields')
+    ) {
+      return;
+    }
+
+    // If the row level length is 1, return as we do not want to format rows that cannot be expanded/Have buttons
+    if (!this.dataView.matrix.rows.levels[0].hasOwnProperty('canBeExpanded')) {
+      return;
+    }
+
+    // Get the expansionCard
+    const expansionCard = this.formattingSettings.expansionCard;
+
     // Get all the rows
     const rows = document.querySelectorAll('.ag-row');
 
     // Loop through them
     for (const rowHeader of Object(rows)) {
       // If singular measure, do not run this function as there is no expansion
-      if (
-        !this.dataView.matrix.columns.root.hasOwnProperty(
-          'childIdentityFields'
-        ) &&
-        !this.dataView.matrix.rows.root.hasOwnProperty('childIdentityFields')
-      ) {
-        return;
-      }
-
-      // If the row level length is 1, return as we do not want to format rows that cannot be expanded/Have buttons
-      if (
-        !this.dataView.matrix.rows.levels[0].hasOwnProperty('canBeExpanded')
-      ) {
-        return;
-      }
 
       // Get the row-id from the HTML attribute
       const rowId = rowHeader.getAttribute('row-id');
@@ -1235,92 +1270,80 @@ export class Matrix {
 
         // Bold rows that have been expanded and change the button text to "-"
         if (rowNodeData.isCollapsed === false) {
-          // Get computed style to turn off bold and italic if enabled by the "Row Formatting card"
-          const computedStyle = getComputedStyle(rowHeaderDIV);
-
-          // Check if bold is enabled
-          if (this.formattingSettings.expansionCard.enableBold.value === true) {
-            rowHeader.style.fontWeight = 'bold';
-          } else if (computedStyle.fontWeight === '700') {
-            rowHeader.style.fontWeight = 'normal';
-          }
-
-          // Get alignment from expansionCard
-          const alignment =
-            this.formattingSettings.expansionCard.alignment.value.value;
-
           // Set alignment
           for (const child of rowHeader.children) {
-            child.style.justifyContent = alignment;
+            // Set the bold
+            child.style.fontWeight = expansionCard.enableBold.value
+              ? 'bold'
+              : 'normal';
+
+            // Set the italic
+            child.style.fontStyle = expansionCard.enableItalic.value
+              ? 'italic'
+              : 'normal';
+
+            // Set the backgroundColor
+            child.style.backgroundColor = hex2rgba(
+              expansionCard.backgroundColor.value.value,
+              expansionCard.opacity.value
+            );
+
+            console.log(
+              expansionCard.backgroundColor.value.value,
+              expansionCard.opacity.value
+            );
+
+            // child.style.backgroundColor = 'red';
+            child.style.justifyContent = expansionCard.alignment.value.value;
+
+            // Set the fontFamily
+            child.style.fontFamily = expansionCard.fontFamily.value;
+
+            // set the fontSize
+            child.style.fontSize = `${expansionCard.fontSize.value}px`;
+
+            // Set the fontColor
+            child.style.color = expansionCard.fontColor.value.value;
           }
-
-          // Check if italic is enabled
-          if (
-            this.formattingSettings.expansionCard.enableItalic.value === true
-          ) {
-            rowHeader.style.fontStyle = 'italic';
-          } else if (computedStyle.fontStyle === 'italic') {
-            rowHeader.style.fontStyle = 'normal';
-          }
-
-          // Set the font via the expansionCard
-          const font = this.formattingSettings.expansionCard.fontFamily.value;
-          rowHeader.style.fontFamily = font;
-
-          // Set the font size via the expansionCard
-          const fontSize = this.formattingSettings.expansionCard.fontSize.value;
-          rowHeader.style.fontSize = `${fontSize}px`;
-
-          // Set the fontColor via the expansionCard
-          const fontColor =
-            this.formattingSettings.expansionCard.fontColor.value.value;
-          rowHeader.style.color = fontColor;
-
-          // Set the background color via expansionCard
-          const backgroundColor =
-            this.formattingSettings.expansionCard.backgroundColor.value.value;
-          rowHeader.style.backgroundColor = backgroundColor;
 
           // Check if top border is enabled
-          if (
-            this.formattingSettings.expansionCard.enableTopBorder.value === true
-          ) {
+          if (expansionCard.enableTopBorder.value === true) {
             // Get the value from the formatting settings
-            const borderWidth =
-              this.formattingSettings.expansionCard.borderWidth.value;
+            const borderWidth = expansionCard.borderWidth.value;
 
             // Get the border color from the formatting settings
-            const borderColor =
-              this.formattingSettings.expansionCard.borderColor.value.value;
+            const borderColor = expansionCard.borderColor.value.value;
 
             // Get the border style from the formatting settings
-            const borderStyle =
-              this.formattingSettings.expansionCard.borderStyle.value.value;
+            const borderStyle = expansionCard.borderStyle.value.value;
 
             // Set the style
             rowHeader.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
           }
 
           // Check if bottom border is enabled
-          if (
-            this.formattingSettings.expansionCard.enableBottomBorder.value ===
-            true
-          ) {
+          if (expansionCard.enableBottomBorder.value === true) {
             // Get the border width from the formatting settings
-            const borderWidth =
-              this.formattingSettings.expansionCard.borderWidth.value;
+            const borderWidth = expansionCard.borderWidth.value;
 
             // Get the border color from the formatting settings
-            const borderColor =
-              this.formattingSettings.expansionCard.borderColor.value.value;
+            const borderColor = expansionCard.borderColor.value.value;
 
             // Get the border style from the formatting settings
-            const borderStyle =
-              this.formattingSettings.expansionCard.borderStyle.value.value;
+            const borderStyle = expansionCard.borderStyle.value.value;
 
             // Set the style
             rowHeader.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
           }
+
+          this.gridOptions.api
+            .getRowNode(rowId)
+            .setRowHeight(expansionCard.height.value);
+
+          rowHeader.style.backgroundColor = hex2rgba(
+            expansionCard.backgroundColor.value.value,
+            expansionCard.opacity.value
+          );
 
           // Change the button text to "-"
           const button = rowHeaderDIV.querySelector('.expandButton');
@@ -1328,97 +1351,36 @@ export class Matrix {
         }
       } catch (e) {}
     }
+    // The grid API needs to recalculate the height of the rows if the row height has changed
+    // NO NEED FOR IT TO RUN IF VALUE IS 25 AS IT IS THE DEFAULT
+    if (expansionCard.height.value !== 25) {
+      this.gridOptions.api.onRowHeightChanged();
+    }
   }
 
+  // Format the rows to get a filled background color. The function was reduced from a more complex function as the rest was integrated into the grid
   private static formatRows() {
     // Get all the rows
     const rows = document.querySelectorAll('.ag-row');
 
-    // Get the row font
-    const font = this.formattingSettings.rowCard.fontFamily.value.split(',')[0];
-
-    // Get the row font size
-    const fontSize = this.formattingSettings.rowCard.fontSize.value;
-
-    // Get the row font color
-    const fontColor = hex2rgba(
-      this.formattingSettings.rowCard.fontColor.value.value
-    );
-
-    // Get the bold value
-    const bold = this.formattingSettings.rowCard.enableBold.value
-      ? 'bold'
-      : 'normal';
-
-    // Get the italic value
-    const italic = this.formattingSettings.rowCard.enableItalic.value
-      ? 'italic'
-      : 'normal';
+    const rowCard = this.formattingSettings.rowCard;
 
     // Get the background color
     const backgroundColor = hex2rgba(
-      this.formattingSettings.rowCard.backgroundColor.value.value
+      this.formattingSettings.rowCard.backgroundColor.value.value,
+      rowCard.opacity.value
     );
-
-    // Get the border width
-    const borderWidth = this.formattingSettings.rowCard.borderWidth.value;
-
-    // Get the border color
-    const borderColor = hex2rgba(
-      this.formattingSettings.rowCard.borderColor.value.value
-    );
-
-    // Get the border style
-    const borderStyle = this.formattingSettings.rowCard.borderStyle.value.value;
-
-    // Get the Top border enabled
-    const topBorder = this.formattingSettings.rowCard.enableTopBorder.value
-      ? `${borderStyle}`
-      : 'none';
-
-    // Get alignment
-    const alignment = this.formattingSettings.rowCard.alignment.value.value;
-
-    // Get the Bottom border enabled
-    const bottomBorder = this.formattingSettings.rowCard.enableBottomBorder
-      .value
-      ? `${borderStyle}`
-      : 'none';
 
     for (const row of Object(rows)) {
-      // Apply the formatting to the row via CSS-text for a one time style change rather than X amount of style renders
-
-      // Get the current style and apply it to the row with the other styles (This is to avoid overriding the other styles)
-      const currentStyle = row.getAttribute('style').replaceAll('"', "'");
-
-      // Split thr style to get transpose ([0]) and height ([1])
-      const currentStyleSplit = currentStyle.split(';');
-
-      // The updated style
-      const updatedStyle = `${currentStyleSplit[0]};${currentStyleSplit[1]}; font-family: ${font}; font-size: ${fontSize}px; color: ${fontColor}; background-color: ${backgroundColor}; border-top: ${borderWidth}px ${topBorder} ${borderColor}; border-bottom: ${borderWidth}px ${bottomBorder} ${borderColor}; font-weight: ${bold}; font-style: ${italic};`;
-
-      // Ensure the style is different otherwise apply it. To avoid re-rendering
-      if (updatedStyle == currentStyle) {
-        // console.log('SAME!');
-        continue;
-      }
-
-      // Set all the styles at once to avoid re-rendering the object multiple times
-      row.style = updatedStyle;
-
-      // Set alignment via loop
-      for (const child of row.children) {
-        // Make sure child does not have the same style applied to avoid re-rendering
-        const currentAlignment = getComputedStyle(child)['justify-content'];
-
-        // The logical check for the style
-        if (currentAlignment === alignment) {
-          continue;
-        }
-
-        // else apply it
-        child.style.justifyContent = alignment;
-      }
+      // Apply background colors
+      (row.style.backgroundColor = backgroundColor),
+        // Row borders
+        (row.style.borderTop = rowCard.enableTopBorder.value
+          ? `${rowCard.borderWidth.value}px ${rowCard.borderStyle.value.value} ${rowCard.borderColor.value.value}`
+          : 'none'),
+        (row.style.borderBottom = rowCard.enableBottomBorder.value
+          ? `${rowCard.borderWidth.value}px ${rowCard.borderStyle.value.value} ${rowCard.borderColor.value.value}`
+          : 'none');
     }
   }
 
@@ -2024,5 +1986,5 @@ export class Matrix {
 
 function hex2rgba(hex, alpha = 1) {
   const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
-  return `rgb(${r}, ${g}, ${b})`;
+  return `rgba(${r},${g},${b},${alpha / 100})`;
 }

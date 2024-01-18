@@ -57,6 +57,12 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
     value: 13,
   });
 
+  height: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'height',
+    displayName: 'Row Height',
+    value: 25,
+  });
+
   fontColor = new formattingSettings.ColorPicker({
     name: 'fontColor',
     displayName: 'Font Color',
@@ -158,8 +164,15 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
     value: 20,
   });
 
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
+    this.height,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -167,6 +180,7 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
     this.enableItalic,
     this.alignment,
     this.backgroundColor,
+    this.opacity,
     this.expandUp,
     this.enableButtons,
     this.enableTopBorder,
@@ -276,8 +290,21 @@ class RowSettingsCard extends FormattingSettingsCard {
     ],
   });
 
+  height: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'height',
+    displayName: 'Row Height',
+    value: 25,
+  });
+
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
+    this.height,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -285,6 +312,7 @@ class RowSettingsCard extends FormattingSettingsCard {
     this.enableItalic,
     this.alignment,
     this.backgroundColor,
+    this.opacity,
     this.enableTopBorder,
     this.enableBottomBorder,
     this.borderWidth,
@@ -403,6 +431,12 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
     ],
   });
 
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
@@ -413,6 +447,7 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
     this.enableItalic,
     this.alignment,
     this.backgroundColor,
+    this.opacity,
     this.enableTopBorder,
     this.enableBottomBorder,
     this.enableRightBorder,
@@ -593,6 +628,7 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
     this.borderWidth,
     this.borderColor,
     this.borderStyle,
+    this.headerHeight,
   ];
 }
 
@@ -610,6 +646,18 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
       displayName: 'Enable Formatting',
       value: false,
     });
+
+  height: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'height',
+    displayName: 'Row Height',
+    value: 25,
+  });
+
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
 
   rowHeaderAlignment = new formattingSettings.ItemDropdown({
     name: 'rowHeaderAlignment',
@@ -751,6 +799,7 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
+    this.height,
     this.rowHeaderFontFamily,
     this.rowHeaderFontColor,
     this.rowHeaderFontSize,
@@ -962,7 +1011,6 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
  *
  */
 export class VisualFormattingSettingsModel extends FormattingSettingsModel {
-  
   // Create formatting settings model formatting cards
   expansionCard = new ExpansionSettingsCard('expansion', 'Row Expansion');
   rowCard = new RowSettingsCard('rows', 'Row Formatting');
@@ -983,13 +1031,11 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
     this.specificColumnCard,
   ];
 
-  
-
   constructor() {
     super();
 
     // Remove Specific Column Card that for some reason has to be added up there otherwise the loop for all specific columns won't work
-    this.cards.pop()
+    this.cards.pop();
 
     // Sort the dataview to always get a predictable specific row order & column order otherwise sorting via powerBi will mess up the settings
     sortDataViewRows();
@@ -1015,8 +1061,6 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
 
     // Remove undefined card
     this.cards.pop();
-
-    
 
     // Row iterator for columns
     let columnIterator = 0;

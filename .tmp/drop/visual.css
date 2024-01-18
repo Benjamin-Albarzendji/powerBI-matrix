@@ -146,8 +146,8 @@ div.dhx_modal_cover_dv {
   background-color: #4846441b;
 }
 .expandButton {
-  position: absolute;
-  top: 17%;
+  position: relative;
+  right: -25%;
   width: 10px;
   height: 10px;
   font-size: 9px;
@@ -160,6 +160,9 @@ div.dhx_modal_cover_dv {
 }
 .ag-center-cols-viewport {
   background-color: white;
+}
+.ag-cell {
+  line-height: 17px;
 }
 .ag-theme-alpine {
   height: 100%;

@@ -6,6 +6,7 @@ declare class ExpansionSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     fontFamily: formattingSettings.FontPicker;
     fontSize: formattingSettings.NumUpDown;
+    height: formattingSettings.NumUpDown;
     fontColor: formattingSettings.ColorPicker;
     expandUp: formattingSettings.ToggleSwitch;
     enableButtons: formattingSettings.ToggleSwitch;
@@ -20,6 +21,7 @@ declare class ExpansionSettingsCard extends FormattingSettingsCard {
     borderStyle: formattingSettings.ItemDropdown;
     enableIndentation: formattingSettings.ToggleSwitch;
     indentationValue: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
@@ -37,6 +39,8 @@ declare class RowSettingsCard extends FormattingSettingsCard {
     borderWidth: formattingSettings.NumUpDown;
     borderColor: formattingSettings.ColorPicker;
     borderStyle: formattingSettings.ItemDropdown;
+    height: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
@@ -56,6 +60,7 @@ declare class RowHeadersSettingsCard extends FormattingSettingsCard {
     borderWidth: formattingSettings.NumUpDown;
     borderColor: formattingSettings.ColorPicker;
     borderStyle: formattingSettings.ItemDropdown;
+    opacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
