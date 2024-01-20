@@ -22,6 +22,7 @@ declare class ExpansionSettingsCard extends FormattingSettingsCard {
     enableIndentation: formattingSettings.ToggleSwitch;
     indentationValue: formattingSettings.NumUpDown;
     opacity: formattingSettings.NumUpDown;
+    borderOpacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
@@ -41,12 +42,15 @@ declare class RowSettingsCard extends FormattingSettingsCard {
     borderStyle: formattingSettings.ItemDropdown;
     height: formattingSettings.NumUpDown;
     opacity: formattingSettings.NumUpDown;
+    indentation: formattingSettings.NumUpDown;
+    borderOpacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
 declare class RowHeadersSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     enableCard: formattingSettings.ToggleSwitch;
+    borderOpacity: formattingSettings.NumUpDown;
     fontFamily: formattingSettings.FontPicker;
     fontSize: formattingSettings.NumUpDown;
     fontColor: formattingSettings.ColorPicker;
@@ -61,6 +65,7 @@ declare class RowHeadersSettingsCard extends FormattingSettingsCard {
     borderColor: formattingSettings.ColorPicker;
     borderStyle: formattingSettings.ItemDropdown;
     opacity: formattingSettings.NumUpDown;
+    indentation: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
@@ -78,6 +83,7 @@ declare class ColumnSettingsCard extends FormattingSettingsCard {
 declare class colHeadersSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     enableCard: formattingSettings.ToggleSwitch;
+    borderOpacity: formattingSettings.NumUpDown;
     fontFamily: formattingSettings.FontPicker;
     fontSize: formattingSettings.NumUpDown;
     fontColor: formattingSettings.ColorPicker;
@@ -92,13 +98,48 @@ declare class colHeadersSettingsCard extends FormattingSettingsCard {
     borderWidth: formattingSettings.NumUpDown;
     borderColor: formattingSettings.ColorPicker;
     borderStyle: formattingSettings.ItemDropdown;
-    headerHeight: formattingSettings.NumUpDown;
+    height: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
+    visible?: boolean;
+    slices: Array<FormattingSettingsSlice>;
+}
+declare class SpecificRowSettingsCard extends FormattingSettingsCard {
+    constructor(name: any, displayName: any);
+    visibility: () => void;
+    enableCard: formattingSettings.ToggleSwitch;
+    savedName: formattingSettings.TextArea;
+    height: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
+    rowHeaderAlignment: formattingSettings.ItemDropdown;
+    rowHeaderBackground: formattingSettings.ColorPicker;
+    headerOpacity: formattingSettings.NumUpDown;
+    rowHeaderFontColor: formattingSettings.ColorPicker;
+    rowHeaderFontFamily: formattingSettings.FontPicker;
+    rowHeaderFontSize: formattingSettings.NumUpDown;
+    rowHeaderBold: formattingSettings.ToggleSwitch;
+    rowHeaderItalic: formattingSettings.ToggleSwitch;
+    fontFamily: formattingSettings.FontPicker;
+    fontSize: formattingSettings.NumUpDown;
+    fontColor: formattingSettings.ColorPicker;
+    enableBold: formattingSettings.ToggleSwitch;
+    enableItalic: formattingSettings.ToggleSwitch;
+    alignment: formattingSettings.ItemDropdown;
+    backgroundColor: formattingSettings.ColorPicker;
+    enableTopBorder: formattingSettings.ToggleSwitch;
+    enableBottomBorder: formattingSettings.ToggleSwitch;
+    borderWidth: formattingSettings.NumUpDown;
+    borderColor: formattingSettings.ColorPicker;
+    borderStyle: formattingSettings.ItemDropdown;
+    borderOpacity: formattingSettings.NumUpDown;
+    rowHeaderIndentation: formattingSettings.NumUpDown;
+    indentation: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
 declare class SpecificColumnSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     enableCard: formattingSettings.ToggleSwitch;
+    savedName: formattingSettings.TextArea;
     columnWidth: formattingSettings.NumUpDown;
     enableRightBorder: formattingSettings.ToggleSwitch;
     enableLeftBorder: formattingSettings.ToggleSwitch;
@@ -119,6 +160,9 @@ declare class SpecificColumnSettingsCard extends FormattingSettingsCard {
     columnHeaderItalic: formattingSettings.ToggleSwitch;
     columnHeaderAlignment: formattingSettings.ItemDropdown;
     columnHeaderBackgroundColor: formattingSettings.ColorPicker;
+    borderOpacity: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
+    valuesOpacity: formattingSettings.NumUpDown;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
@@ -132,9 +176,16 @@ export declare class VisualFormattingSettingsModel extends FormattingSettingsMod
     rowHeadersCard: RowHeadersSettingsCard;
     columnCard: ColumnSettingsCard;
     colHeadersCard: colHeadersSettingsCard;
-    specificColumnCard: SpecificColumnSettingsCard;
-    cards: (ColumnSettingsCard | RowSettingsCard | ExpansionSettingsCard | RowHeadersSettingsCard | colHeadersSettingsCard | SpecificColumnSettingsCard)[];
-    constructor();
+    specificRowCard1: SpecificRowSettingsCard;
+    specificRowCard2: SpecificRowSettingsCard;
+    specificRowCard3: SpecificRowSettingsCard;
+    specificRowCard4: SpecificRowSettingsCard;
+    specificRowCard5: SpecificRowSettingsCard;
+    specificColumnCard0: SpecificColumnSettingsCard;
+    specificColumnCard1: SpecificColumnSettingsCard;
+    specificColumnCard2: SpecificColumnSettingsCard;
+    specificColumnCard3: SpecificColumnSettingsCard;
+    specificColumnCard4: SpecificColumnSettingsCard;
+    cards: (ColumnSettingsCard | colHeadersSettingsCard | RowSettingsCard | ExpansionSettingsCard | RowHeadersSettingsCard | SpecificColumnSettingsCard | SpecificRowSettingsCard)[];
 }
-export declare function setDataView(data: any): void;
 export {};

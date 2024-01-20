@@ -160,7 +160,7 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
 
   indentationValue = new formattingSettings.NumUpDown({
     name: 'indentationValue',
-    displayName: 'Indentation',
+    displayName: 'Header Indentation',
     value: 20,
   });
 
@@ -170,9 +170,19 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
     value: 100,
   });
 
+  borderOpacity = new formattingSettings.NumUpDown({
+    name: 'borderOpacity',
+    displayName: 'Border Opacity',
+    value: 100,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
+    this.enableButtons,
+    this.expandUp,
     this.height,
+    this.enableIndentation,
+    this.indentationValue,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -181,15 +191,12 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
     this.alignment,
     this.backgroundColor,
     this.opacity,
-    this.expandUp,
-    this.enableButtons,
     this.enableTopBorder,
     this.enableBottomBorder,
-    this.borderWidth,
     this.borderColor,
+    this.borderOpacity,
     this.borderStyle,
-    this.enableIndentation,
-    this.indentationValue,
+    this.borderWidth,
   ];
 }
 
@@ -302,9 +309,23 @@ class RowSettingsCard extends FormattingSettingsCard {
     value: 100,
   });
 
+  indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'indentation',
+    displayName: 'Indentation',
+    value: 0,
+  });
+
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
+    });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.height,
+    this.indentation,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -316,8 +337,9 @@ class RowSettingsCard extends FormattingSettingsCard {
     this.enableTopBorder,
     this.enableBottomBorder,
     this.borderWidth,
-    this.borderColor,
     this.borderStyle,
+    this.borderColor,
+    this.borderOpacity,
   ];
 }
 
@@ -334,6 +356,13 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
       name: 'enableCard',
       displayName: 'Enable Formatting',
       value: false,
+    });
+
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
     });
 
   fontFamily = new formattingSettings.FontPicker({
@@ -437,9 +466,16 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
     value: 100,
   });
 
+  indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'indentation',
+    displayName: 'Indentation',
+    value: 0,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
+    this.indentation,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -451,9 +487,10 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
     this.enableTopBorder,
     this.enableBottomBorder,
     this.enableRightBorder,
-    this.borderWidth,
     this.borderColor,
     this.borderStyle,
+    this.borderWidth,
+    this.borderOpacity,
   ];
 }
 
@@ -501,7 +538,14 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
     new formattingSettings.ToggleSwitch({
       name: 'enableCard',
       displayName: 'Enable Formatting',
-      value: false,
+      value: true,
+    });
+
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
     });
 
   fontFamily = new formattingSettings.FontPicker({
@@ -605,15 +649,22 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
     ],
   });
 
-  headerHeight = new formattingSettings.NumUpDown({
-    name: 'headerHeight',
-    displayName: 'Header Height',
+  height = new formattingSettings.NumUpDown({
+    name: 'height',
+    displayName: 'Height',
     value: 25,
+  });
+
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
   });
 
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
+    this.height,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -621,14 +672,15 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
     this.enableItalic,
     this.alignment,
     this.backgroundColor,
+    this.opacity,
     this.enableTopBorder,
     this.enableBottomBorder,
     this.enableRightBorder,
     this.enableLeftBorder,
     this.borderWidth,
     this.borderColor,
+    this.borderOpacity,
     this.borderStyle,
-    this.headerHeight,
   ];
 }
 
@@ -640,12 +692,33 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
     this.displayName = displayName;
   }
 
+  // This function is used to hide the card slices if the enableCard toggle is off
+  visibility = function () {
+    for (const slice of this.slices) {
+      if (slice.name === 'enableCard') {
+        continue;
+      }
+
+      slice.visible = this.enableCard.value ? true : false;
+    }
+  };
+
   enableCard: formattingSettings.ToggleSwitch =
     new formattingSettings.ToggleSwitch({
       name: 'enableCard',
       displayName: 'Enable Formatting',
       value: false,
     });
+
+  savedName: formattingSettings.TextArea = new formattingSettings.TextArea({
+    name: 'savedName',
+    displayName: 'Applicable Rows',
+    value: '',
+    placeholder:
+      'Enter row names by a comma-separation (Without spaces!) like so: \n"EBITDA,OPEX,Net Income" \n without the quotation marks.',
+    description:
+      'Enter row names by a comma-separation (Without spaces!) like so: \n"EBITDA,OPEX,Net Income" \n without the quotation marks.',
+  });
 
   height: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'height',
@@ -673,9 +746,16 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
 
   rowHeaderBackground = new formattingSettings.ColorPicker({
     name: 'rowHeaderBackground',
-    displayName: 'Row Header Background Color',
+    displayName: 'Header Background Color',
     value: { value: '#ffffff' },
   });
+
+  headerOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'headerOpacity',
+      displayName: 'Background Opacity',
+      value: 100,
+    });
 
   rowHeaderFontColor = new formattingSettings.ColorPicker({
     name: 'rowHeaderFontColor',
@@ -796,10 +876,32 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
     ],
   });
 
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
+    });
+
+  rowHeaderIndentation: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'rowHeaderIndentation',
+      displayName: 'Row Header Indentation',
+      value: 0,
+    });
+
+  indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'indentation',
+    displayName: 'Values Indentation',
+    value: 0,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
+    this.savedName,
     this.height,
+    this.rowHeaderIndentation,
     this.rowHeaderFontFamily,
     this.rowHeaderFontColor,
     this.rowHeaderFontSize,
@@ -807,6 +909,8 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
     this.rowHeaderItalic,
     this.rowHeaderAlignment,
     this.rowHeaderBackground,
+    this.headerOpacity,
+    this.indentation,
     this.fontFamily,
     this.fontColor,
     this.fontSize,
@@ -814,11 +918,13 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
     this.enableItalic,
     this.alignment,
     this.backgroundColor,
+    this.opacity,
     this.enableTopBorder,
     this.enableBottomBorder,
     this.borderWidth,
     this.borderColor,
     this.borderStyle,
+    this.borderOpacity,
   ];
 }
 
@@ -836,6 +942,16 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
       displayName: 'Enable Formatting',
       value: false,
     });
+
+  savedName: formattingSettings.TextArea = new formattingSettings.TextArea({
+    name: 'savedName',
+    displayName: 'Applicable Columns',
+    value: '',
+    placeholder:
+      'Enter column names by a comma-separation (Without spaces!) like so: \n"EBITDA,OPEX,Net Income" \n without the quotation marks.',
+    description:
+      'Enter column names by a comma-separation (Without spaces!) like so: \n"EBITDA,OPEX,Net Income" \n without the quotation marks.',
+  });
 
   columnWidth = new formattingSettings.NumUpDown({
     name: 'columnWidth',
@@ -980,22 +1096,31 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
     value: { value: '#ffffff' },
   });
 
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
+    });
+
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
+
+  valuesOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'valuesOpacity',
+      displayName: 'Values Opacity',
+      value: 100,
+    });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableCard,
+    this.savedName,
     this.columnWidth,
-    this.enableRightBorder,
-    this.enableLeftBorder,
-    this.borderColor,
-    this.borderStyle,
-    this.borderWidth,
-    this.columnFontFamily,
-    this.columnFontSize,
-    this.columnFontColor,
-    this.columnBold,
-    this.columnItalic,
-    this.columnAlignment,
-    this.columnBackgroundColor,
     this.columnHeaderFontFamily,
     this.columnHeaderFontSize,
     this.columnHeaderFontColor,
@@ -1003,6 +1128,21 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
     this.columnHeaderItalic,
     this.columnHeaderAlignment,
     this.columnHeaderBackgroundColor,
+    this.opacity,
+    this.enableLeftBorder,
+    this.enableRightBorder,
+    this.borderColor,
+    this.borderStyle,
+    this.borderWidth,
+    this.borderOpacity,
+    this.columnFontFamily,
+    this.columnFontSize,
+    this.columnFontColor,
+    this.columnBold,
+    this.columnItalic,
+    this.columnAlignment,
+    this.columnBackgroundColor,
+    this.valuesOpacity,
   ];
 }
 
@@ -1017,99 +1157,64 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
   rowHeadersCard = new RowHeadersSettingsCard('rowHeaders', 'Row Headers');
   columnCard = new ColumnSettingsCard('columns', 'Column Formatting');
   colHeadersCard = new colHeadersSettingsCard('colHeaders', 'Column Headers');
-  specificColumnCard = new SpecificColumnSettingsCard(
-    'specificColumn',
-    'Specific Column'
+
+  specificRowCard1 = new SpecificRowSettingsCard(
+    'specificRow0',
+    'Multiple Row Formatting - 1'
+  );
+  specificRowCard2 = new SpecificRowSettingsCard(
+    'specificRow1',
+    'Multiple Row Formatting - 2'
+  );
+  specificRowCard3 = new SpecificRowSettingsCard(
+    'specificRow2',
+    'Multiple Row Formatting - 3'
+  );
+  specificRowCard4 = new SpecificRowSettingsCard(
+    'specificRow3',
+    'Multiple Row Formatting - 4'
+  );
+  specificRowCard5 = new SpecificRowSettingsCard(
+    'specificRow4',
+    'Multiple Row Formatting - 5'
+  );
+
+  specificColumnCard0 = new SpecificColumnSettingsCard(
+    'specificColumn0',
+    'Multiple Column Formatting - 1'
+  );
+  specificColumnCard1 = new SpecificColumnSettingsCard(
+    'specificColumn1',
+    'Multiple Column Formatting - 2'
+  );
+  specificColumnCard2 = new SpecificColumnSettingsCard(
+    'specificColumn2',
+    'Multiple Column Formatting - 3'
+  );
+  specificColumnCard3 = new SpecificColumnSettingsCard(
+    'specificColumn3',
+    'Multiple Column Formatting - 4'
+  );
+  specificColumnCard4 = new SpecificColumnSettingsCard(
+    'specificColumn4',
+    'Multiple Column Formatting - 5'
   );
 
   cards = [
     this.columnCard,
+    this.colHeadersCard,
     this.rowCard,
     this.expansionCard,
     this.rowHeadersCard,
-    this.colHeadersCard,
-    this.specificColumnCard,
+    this.specificColumnCard0,
+    this.specificColumnCard1,
+    this.specificColumnCard2,
+    this.specificColumnCard3,
+    this.specificColumnCard4,
+    this.specificRowCard1,
+    this.specificRowCard2,
+    this.specificRowCard3,
+    this.specificRowCard4,
+    this.specificRowCard5,
   ];
-
-  constructor() {
-    super();
-
-    // Remove Specific Column Card that for some reason has to be added up there otherwise the loop for all specific columns won't work
-    this.cards.pop();
-
-    // Sort the dataview to always get a predictable specific row order & column order otherwise sorting via powerBi will mess up the settings
-    sortDataViewRows();
-    sortDataViewColumns();
-
-    // Row iterator for rows
-    let rowIterator = 0;
-
-    // Dynamically add all parent rows as a card
-    for (const child of sortedDataViewRows) {
-      if (child === undefined) {
-        this.cards.push(
-          new SpecificRowSettingsCard(`specificRow${rowIterator}`, `Row Total`)
-        );
-      }
-      // Else add all the cards
-      this.cards.push(
-        new SpecificRowSettingsCard(`specificRow${rowIterator}`, `Row ${child}`)
-      );
-
-      rowIterator++;
-    }
-
-    // Remove undefined card
-    this.cards.pop();
-
-    // Row iterator for columns
-    let columnIterator = 0;
-
-    // Dynamically add all parent rows as a card
-    for (const child of sortedDataViewColumns) {
-      this.cards.push(
-        new SpecificColumnSettingsCard(
-          `specificColumn${columnIterator}`,
-          `Column ${child}`
-        )
-      );
-
-      columnIterator++;
-    }
-  }
-}
-
-// Set dataView function
-export function setDataView(data) {
-  dataView = data;
-}
-
-function sortDataViewRows() {
-  sortedDataViewRows.length = 0;
-
-  // Grab the matrix row children
-  const matrixRows = dataView.matrix.rows.root.children;
-
-  // Loop through them and sort them alphabetically and append to sortedDataView
-  for (const child of matrixRows) {
-    sortedDataViewRows.push(child.value);
-  }
-
-  // Sort the array alphabetically descending
-  sortedDataViewRows.sort();
-}
-
-function sortDataViewColumns() {
-  sortedDataViewColumns.length = 0;
-
-  // Grab the matrix row children
-  const matrixColumns = dataView.metadata.columns;
-
-  // Loop through them and sort them alphabetically and append to sortedDataView
-  for (const child of matrixColumns) {
-    sortedDataViewColumns.push(child.displayName);
-  }
-
-  // Sort the array alphabetically descending
-  sortedDataViewColumns.sort();
 }

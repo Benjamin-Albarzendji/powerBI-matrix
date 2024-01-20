@@ -44,8 +44,10 @@ export class Matrix {
 
   // An array where the rowChildrenNodes get added too
   static rowChildrenNodes = [];
+
   // The array where the previous array gets sorted
   static rowChildrenNodesSorted = [];
+
   // The array to map nodes for expansion
   static nodesToExpand = [];
 
@@ -64,6 +66,9 @@ export class Matrix {
 
     // Default rowHeight is 25
     rowHeight: 25,
+
+    // Default header height is 25
+    headerHeight: 25,
 
     // Default col def properties get applied to all columns
     defaultColDef: {
@@ -118,7 +123,7 @@ export class Matrix {
       this.formatExpandedRows();
 
       // Format rowheaders
-      // this.formatRowHeaders();
+      this.formatRowHeaders();
 
       // Format column headers
       this.formatColHeaders();
@@ -144,7 +149,7 @@ export class Matrix {
       this.formatExpandedRows();
 
       // Format rowheaders
-      // this.formatRowHeaders();
+      this.formatRowHeaders();
 
       // Format specific columns
       this.formatSpecificColumns();
@@ -339,6 +344,10 @@ export class Matrix {
     // Set the rowHeight from the rowCard formatting settings (Has to be separate for the API)
     this.gridOptions.rowHeight = this.formattingSettings.rowCard.height.value;
 
+    // Set the headerHeight from the rowCard formatting settings (Has to be separate for the API)
+    this.gridOptions.headerHeight =
+      this.formattingSettings.colHeadersCard.height.value;
+
     // Create an object to hold CSS styling from the rowCard formatting settings
     const rowCard = this.formattingSettings.rowCard;
     const gridCellStyling = {
@@ -348,29 +357,42 @@ export class Matrix {
       fontSize: `${rowCard.fontSize.value}px`,
       fontWeight: rowCard.enableBold.value ? 'bold' : 'normal',
       fontStyle: rowCard.enableItalic.value ? 'italic' : 'normal',
+      textIndent: `${rowCard.indentation.value}px`,
     };
 
     // Formatting for the rowHeadersCard (The first column)
     const rowHeadersCard = this.formattingSettings.rowHeadersCard;
     const categoryCellStyling = {
+      textIndent: `${rowHeadersCard.indentation.value}px`,
       justifyContent: rowHeadersCard.alignment.value.value,
-      backgroundColor: hex2rgba(
-        rowHeadersCard.backgroundColor.value.value,
-        rowHeadersCard.opacity.value
-      ),
       fontWeight: rowHeadersCard.enableBold.value ? 'bold' : 'normal',
       fontStyle: rowHeadersCard.enableItalic.value ? 'italic' : 'normal',
       color: rowHeadersCard.fontColor.value.value,
       fontSize: `${rowHeadersCard.fontSize.value}px`,
       fontFamily: rowHeadersCard.fontFamily.value,
       borderRight: rowHeadersCard.enableRightBorder.value
-        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        ? `${rowHeadersCard.borderWidth.value}px ${
+            rowHeadersCard.borderStyle.value.value
+          } ${hex2rgba(
+            rowHeadersCard.borderColor.value.value,
+            rowHeadersCard.borderOpacity.value
+          )}`
         : 'none',
       borderTop: rowHeadersCard.enableTopBorder.value
-        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        ? `${rowHeadersCard.borderWidth.value}px ${
+            rowHeadersCard.borderStyle.value.value
+          } ${hex2rgba(
+            rowHeadersCard.borderColor.value.value,
+            rowHeadersCard.borderOpacity.value
+          )}`
         : 'none',
       borderBottom: rowHeadersCard.enableBottomBorder.value
-        ? `${rowHeadersCard.borderWidth.value}px ${rowHeadersCard.borderStyle.value.value} ${rowHeadersCard.borderColor.value.value}`
+        ? `${rowHeadersCard.borderWidth.value}px ${
+            rowHeadersCard.borderStyle.value.value
+          } ${hex2rgba(
+            rowHeadersCard.borderColor.value.value,
+            rowHeadersCard.borderOpacity.value
+          )}`
         : 'none',
     };
 
@@ -673,6 +695,9 @@ export class Matrix {
 
     // Creates the final Grid
     new agGrid.Grid(gridDiv, gridOptions);
+
+    // FIXXX LATER WITH FORMATTING SETTINGS
+    gridOptions.api.setPinnedBottomRowData([rowData[rowData.length - 1]]);
 
     // Return a finished DIV to be attached
     return gridDiv;
@@ -1270,6 +1295,11 @@ export class Matrix {
 
         // Bold rows that have been expanded and change the button text to "-"
         if (rowNodeData.isCollapsed === false) {
+          // Set the background color via image left right gradient
+
+          // To be refered to later in the expandedRows function
+          rowHeader.classList.add('expandedRow');
+
           // Set alignment
           for (const child of rowHeader.children) {
             // Set the bold
@@ -1281,17 +1311,6 @@ export class Matrix {
             child.style.fontStyle = expansionCard.enableItalic.value
               ? 'italic'
               : 'normal';
-
-            // Set the backgroundColor
-            child.style.backgroundColor = hex2rgba(
-              expansionCard.backgroundColor.value.value,
-              expansionCard.opacity.value
-            );
-
-            console.log(
-              expansionCard.backgroundColor.value.value,
-              expansionCard.opacity.value
-            );
 
             // child.style.backgroundColor = 'red';
             child.style.justifyContent = expansionCard.alignment.value.value;
@@ -1306,44 +1325,37 @@ export class Matrix {
             child.style.color = expansionCard.fontColor.value.value;
           }
 
-          // Check if top border is enabled
-          if (expansionCard.enableTopBorder.value === true) {
-            // Get the value from the formatting settings
-            const borderWidth = expansionCard.borderWidth.value;
+          // Get the value from the formatting settings
+          const borderWidth = expansionCard.borderWidth.value;
 
-            // Get the border color from the formatting settings
-            const borderColor = expansionCard.borderColor.value.value;
+          // Get the border color from the formatting settings
+          const borderColor = hex2rgba(
+            expansionCard.borderColor.value.value,
+            expansionCard.borderOpacity.value
+          );
 
-            // Get the border style from the formatting settings
-            const borderStyle = expansionCard.borderStyle.value.value;
+          // Get the border style from the formatting settings
+          const borderStyle = expansionCard.borderStyle.value.value;
 
-            // Set the style
-            rowHeader.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-          }
+          // Set the style TOP
+          rowHeader.style.borderTop = expansionCard.enableTopBorder.value
+            ? `${borderWidth}px ${borderStyle} ${borderColor}`
+            : 'none';
 
-          // Check if bottom border is enabled
-          if (expansionCard.enableBottomBorder.value === true) {
-            // Get the border width from the formatting settings
-            const borderWidth = expansionCard.borderWidth.value;
-
-            // Get the border color from the formatting settings
-            const borderColor = expansionCard.borderColor.value.value;
-
-            // Get the border style from the formatting settings
-            const borderStyle = expansionCard.borderStyle.value.value;
-
-            // Set the style
-            rowHeader.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-          }
+          // Set the style BOTTOM
+          rowHeader.style.borderBottom = expansionCard.enableBottomBorder.value
+            ? `${borderWidth}px ${borderStyle} ${borderColor}`
+            : 'none';
 
           this.gridOptions.api
             .getRowNode(rowId)
             .setRowHeight(expansionCard.height.value);
 
-          rowHeader.style.backgroundColor = hex2rgba(
+          // Rowheader style via background image
+          rowHeader.style.backgroundImage = `linear-gradient(to right, ${hex2rgba(
             expansionCard.backgroundColor.value.value,
             expansionCard.opacity.value
-          );
+          )} 100%, white 100%)`;
 
           // Change the button text to "-"
           const button = rowHeaderDIV.querySelector('.expandButton');
@@ -1367,19 +1379,31 @@ export class Matrix {
 
     // Get the background color
     const backgroundColor = hex2rgba(
-      this.formattingSettings.rowCard.backgroundColor.value.value,
+      rowCard.backgroundColor.value.value,
       rowCard.opacity.value
     );
 
     for (const row of Object(rows)) {
       // Apply background colors
-      (row.style.backgroundColor = backgroundColor),
-        // Row borders
-        (row.style.borderTop = rowCard.enableTopBorder.value
-          ? `${rowCard.borderWidth.value}px ${rowCard.borderStyle.value.value} ${rowCard.borderColor.value.value}`
-          : 'none'),
+      // (row.style.backgroundColor = backgroundColor),
+
+      row.style.backgroundImage = `linear-gradient(to right, ${backgroundColor} 100%, white 100%)`;
+      // Row borders
+      (row.style.borderTop = rowCard.enableTopBorder.value
+        ? `${rowCard.borderWidth.value}px ${
+            rowCard.borderStyle.value.value
+          } ${hex2rgba(
+            rowCard.borderColor.value.value,
+            rowCard.borderOpacity.value
+          )}`
+        : 'none'),
         (row.style.borderBottom = rowCard.enableBottomBorder.value
-          ? `${rowCard.borderWidth.value}px ${rowCard.borderStyle.value.value} ${rowCard.borderColor.value.value}`
+          ? `${rowCard.borderWidth.value}px ${
+              rowCard.borderStyle.value.value
+            } ${hex2rgba(
+              rowCard.borderColor.value.value,
+              rowCard.borderOpacity.value
+            )}`
           : 'none');
     }
   }
@@ -1391,116 +1415,55 @@ export class Matrix {
     }
 
     // Get all the rows
-    const rows = document.querySelectorAll('.categoryCell');
+    const rows = document.querySelectorAll('.ag-row');
 
-    // Get the row font
-    const font = this.formattingSettings.rowHeadersCard.fontFamily.value;
+    // The rowheaders card
+    const rowHeadersCard = this.formattingSettings.rowHeadersCard;
 
-    // Get the row font size
-    const fontSize = this.formattingSettings.rowHeadersCard.fontSize.value;
+    // Get the row card
+    const rowCard = this.formattingSettings.rowCard;
 
-    // Get the row font color
-    const fontColor =
-      this.formattingSettings.rowHeadersCard.fontColor.value.value;
-
-    // Get the bold value
-    const bold = this.formattingSettings.rowHeadersCard.enableBold.value
-      ? 'bold'
-      : 'normal';
-
-    // Get the italic value
-    const italic = this.formattingSettings.rowHeadersCard.enableItalic.value
-      ? 'italic'
-      : 'normal';
-
-    // Get the background color
-    const backgroundColor =
-      this.formattingSettings.rowHeadersCard.backgroundColor.value.value;
-
-    // Get the border width
-    const borderWidth =
-      this.formattingSettings.rowHeadersCard.borderWidth.value;
-
-    // Get the border color
-    const borderColor =
-      this.formattingSettings.rowHeadersCard.borderColor.value.value;
-
-    // Get the border style
-    const borderStyle =
-      this.formattingSettings.rowHeadersCard.borderStyle.value.value;
-
-    // Get the Top border enabled
-    const topBorder = this.formattingSettings.rowHeadersCard.enableTopBorder
-      .value
-      ? `${borderStyle}`
-      : 'none';
-
-    // Get the right border enabled
-    const rightBorder = this.formattingSettings.rowHeadersCard.enableRightBorder
-      .value
-      ? `${borderStyle}`
-      : 'none';
-
-    // Get alignment
-    const alignment =
-      this.formattingSettings.rowHeadersCard.alignment.value.value;
-
-    // Get the Bottom border enabled
-    const bottomBorder = this.formattingSettings.rowHeadersCard
-      .enableBottomBorder.value
-      ? `${borderStyle}`
-      : 'none';
+    // Get the rowHeaders background color & opacity
+    const backgroundColor = hex2rgba(
+      rowHeadersCard.backgroundColor.value.value,
+      rowHeadersCard.opacity.value
+    );
 
     for (const row of Object(rows)) {
-      // Set the row font
-      row.style.fontFamily = font;
+      // Dynamic rowBackgroundColor that depends on if a row is expanded or not
+      let rowBackgroundColor;
 
-      // Set the row font size
+      // Get the row background color and opacity
+      rowBackgroundColor = hex2rgba(
+        rowCard.backgroundColor.value.value,
+        rowCard.opacity.value
+      );
+      // Get the width of a categoryCell
+      const width = row.children[0].offsetWidth;
 
-      row.style.fontSize = `${fontSize}px`;
+      if (row.classList.contains('expandedRow')) {
+        rowBackgroundColor = hex2rgba(
+          this.formattingSettings.expansionCard.backgroundColor.value.value,
+          this.formattingSettings.expansionCard.opacity.value
+        );
 
-      // Set the row font color
+        // Replace header styles for expanded Rows
+        row.children[0].style.fontFamily = rowHeadersCard.fontFamily.value;
+        row.children[0].style.fontSize = `${rowHeadersCard.fontSize.value}px`;
+        row.children[0].style.color = rowHeadersCard.fontColor.value.value;
+        row.children[0].style.fontWeight = rowHeadersCard.enableBold.value
+          ? 'bold'
+          : 'normal';
+        row.children[0].style.fontStyle = rowHeadersCard.enableItalic.value
+          ? 'italic'
+          : 'normal';
 
-      row.style.color = fontColor;
-
-      // Set the bold
-      if (bold) {
-        row.style.fontWeight = 'bold';
+        row.children[0].style.justifyContent =
+          rowHeadersCard.alignment.value.value;
       }
 
-      // Set the italic
-      if (italic) {
-        row.style.fontStyle = 'italic';
-      }
-
-      // Set the background color
-      row.style.backgroundColor = backgroundColor;
-
-      // Set the top border
-      if (topBorder) {
-        row.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      } else {
-        row.style.borderTop = 'none';
-      }
-
-      // Set the bottom border
-      if (bottomBorder) {
-        row.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      } else {
-        row.style.borderBottom = 'none';
-      }
-
-      // Set the right border
-      if (rightBorder) {
-        row.style.borderRight = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-
-      row.style.justifyContent = alignment;
-
-      // Set alignment
-      for (const child of row.children) {
-        child.style.justifyContent = alignment;
-      }
+      // Set a linear gradient with the header backgroundColor and the row backgroundColor with a cut off where the width of the header is
+      row.style.backgroundImage = `linear-gradient(to right, ${backgroundColor} ${width}px, ${rowBackgroundColor} ${width}px)`;
     }
   }
 
@@ -1583,8 +1546,10 @@ export class Matrix {
       this.formattingSettings.colHeadersCard.borderWidth.value;
 
     // Get the border color
-    const borderColor =
-      this.formattingSettings.colHeadersCard.borderColor.value.value;
+    const borderColor = hex2rgba(
+      this.formattingSettings.colHeadersCard.borderColor.value.value,
+      this.formattingSettings.colHeadersCard.borderOpacity.value
+    );
 
     // Get the border style
     const borderStyle =
@@ -1610,58 +1575,49 @@ export class Matrix {
     const bottomBorder =
       this.formattingSettings.colHeadersCard.enableBottomBorder.value;
 
-    // Set the background to "ag-header"
-    const headerContainer = Object(document.querySelector('.ag-header'));
-    headerContainer.style.backgroundColor = backgroundColor;
-
     for (const rowContainer of Object(rows)) {
       const row = rowContainer.querySelector('.ag-header-cell-label');
+
+      // Set the background Color to the parent element of the row to avoid gaps in the background color (Perhaps changed later to cells, depending on specific columns)
+      rowContainer.parentElement.style.backgroundColor = hex2rgba(
+        backgroundColor,
+        this.formattingSettings.colHeadersCard.opacity.value
+      );
 
       // Set the row font
       row.style.fontFamily = font;
 
       // Set the row font size
-
       row.style.fontSize = `${fontSize}px`;
 
       // Set the row font color
-
       row.style.color = fontColor;
 
       // Set the bold
-      if (bold) {
-        row.style.fontWeight = 'bold';
-      }
+      row.style.fontWeight = bold ? 'bold' : 'normal';
 
       // Set the italic
-      if (italic) {
-        row.style.fontStyle = 'italic';
-      }
-
-      // Set the background color
-      // rowContainer.style.backgroundColor = backgroundColor;
+      row.style.fontStyle = italic ? 'italic' : 'normal';
 
       // Set the top border
-      if (topBorder) {
-        rowContainer.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
+      rowContainer.style.borderTop = topBorder
+        ? `${borderWidth}px ${borderStyle} ${borderColor}`
+        : 'none';
 
       // Set the bottom border
-      if (bottomBorder) {
-        rowContainer.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
+      rowContainer.style.borderBottom = bottomBorder
+        ? `${borderWidth}px ${borderStyle} ${borderColor}`
+        : 'none';
 
       // Set the right border
-      if (rightBorder) {
-        rowContainer.style.borderRight = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
+      rowContainer.style.borderRight = rightBorder
+        ? `${borderWidth}px ${borderStyle} ${borderColor}`
+        : 'none';
 
       // Set the left border
-      if (leftBorder) {
-        rowContainer.style.borderLeft = `${borderWidth}px ${borderStyle} ${borderColor}`;
-      }
-
-      row.style.justifyContent = alignment;
+      rowContainer.style.borderLeft = leftBorder
+        ? `${borderWidth}px ${borderStyle} ${borderColor}`
+        : 'none';
 
       // Set alignment
       for (const child of row.children) {
@@ -1671,6 +1627,7 @@ export class Matrix {
   }
 
   private static formatSpecificRows() {
+    // Get all the categoryCells
     const categoryCells = document.querySelectorAll('.categoryCell');
 
     // Loop through the formatting settings cards array
@@ -1687,17 +1644,18 @@ export class Matrix {
         continue;
       }
 
-      // Split the displayName and take the second element
-      const displayNameArray = card.displayName.split(' ');
+      if (card.savedName.value === '') {
+        continue;
+      }
 
-      // remove the first element of displayName
-      displayNameArray.shift();
-
-      // Join the displayName
-      const displayName = displayNameArray.join(' ');
+      // Get the applicable rows
+      const applicableRows = card.savedName.value.split(',');
 
       // Get the rowHeaderFontFamily
       const rowHeaderFontFamily = card.rowHeaderFontFamily.value;
+
+      // Get the height
+      const height = card.height.value;
 
       // Get the RowHeaderFontColor
       const rowHeaderFontColor = card.rowHeaderFontColor.value.value;
@@ -1739,7 +1697,10 @@ export class Matrix {
       const borderWidth = card.borderWidth.value;
 
       // Get the border color
-      const borderColor = card.borderColor.value.value;
+      const borderColor = hex2rgba(
+        card.borderColor.value.value,
+        card.borderOpacity.value
+      );
 
       // Get the border style
       const borderStyle = card.borderStyle.value.value;
@@ -1753,72 +1714,100 @@ export class Matrix {
       // Get the Bottom border enabled
       const bottomBorder = card.enableBottomBorder.value;
 
-      // Loop through the category cells to find the correct row
-      for (const rowHeader of Object(categoryCells)) {
-        // Remove "+" or "-" from the row textContent
-        const rowTextContent = rowHeader.textContent
-          .replace('+', '')
-          .replace('-', '');
+      // Loop through the applicale rows
+      for (const displayName of applicableRows) {
+        // Loop through the category cells to find the correct row
+        for (const rowHeader of Object(categoryCells)) {
+          // Remove "+" or "-" from the row textContent
+          const rowTextContent = rowHeader.textContent
+            .replace('+', '')
+            .replace('-', '');
 
-        // Skip if they do not match
-        if (rowTextContent !== displayName) {
-          continue;
+          // Skip if they do not match
+          if (
+            rowTextContent !== displayName.replace('+', '').replace('-', '')
+          ) {
+            continue;
+          }
+
+          // Get the parent element to style the row
+          const row = rowHeader.parentElement;
+
+          // Get the row-id via query selector
+          const rowId = row.getAttribute('row-id');
+
+          // Get the row node
+          const rowNode = this.gridOptions.api.getRowNode(rowId);
+
+          // Set the row height via the grid API
+          rowNode.setRowHeight(height);
+
+          // Set the top border
+          row.style.borderTop = topBorder
+            ? `${borderWidth}px ${borderStyle} ${borderColor}`
+            : 'none';
+
+          // Set the bottom border
+          row.style.borderBottom = bottomBorder
+            ? `${borderWidth}px ${borderStyle} ${borderColor}`
+            : 'none';
+
+          // Set child specific values
+          for (const child of row.children) {
+            child.style.justifyContent = alignment;
+
+            // Set the row font
+            child.style.fontFamily = font;
+
+            // Set the row font size
+            child.style.fontSize = `${fontSize}px`;
+
+            // Set the row font color
+            child.style.color = fontColor;
+
+            // Set the bold
+            child.style.fontWeight = bold ? 'bold' : 'normal';
+
+            // Set the italic
+            child.style.fontStyle = italic ? 'italic' : 'normal';
+
+            // Set the indentation
+            child.style.textIndent = `${card.indentation.value}px`;
+
+            child.style.backgroundColor = 'RGBA(0,0,0,0)';
+          }
+
+          // Get the rowheader width for the linear gradient
+          const rowHeaderWidth = rowHeader.offsetWidth;
+
+          // Create a linear gradient where the color includes the headerColor and the row color where it cuts off at the header width
+          row.style.backgroundImage = `linear-gradient(to right, ${hex2rgba(
+            rowHeaderBackground,
+            card.headerOpacity.value
+          )} ${rowHeaderWidth}px, ${hex2rgba(
+            backgroundColor,
+            card.opacity.value
+          )} ${rowHeaderWidth}px)`;
+
+          // Set the rowHeader values to the rowHeader
+          rowHeader.style.fontFamily = rowHeaderFontFamily;
+          rowHeader.style.fontSize = `${rowHeaderFontSize}px`;
+          rowHeader.style.color = rowHeaderFontColor;
+          rowHeader.style.justifyContent = rowHeaderAlignment;
+          rowHeader.style.fontWeight = rowHeaderBold ? 'bold' : 'normal';
+          rowHeader.style.fontStyle = rowHeaderItalic ? 'italic' : 'normal';
+          rowHeader.style.textIndent = `${card.rowHeaderIndentation.value}px`;
         }
+      }
 
-        // Get the parent element to style the row
-        const row = rowHeader.parentElement;
-
-        // Set the row font
-        row.style.fontFamily = font;
-        rowHeader.style.fontFamily = font;
-
-        // Set the row font size
-        row.style.fontSize = `${fontSize}px`;
-
-        // Set the row font color
-
-        row.style.color = fontColor;
-
-        // Set the bold
-        if (bold) {
-          row.style.fontWeight = 'bold';
-        }
-
-        // Set the italic
-        if (italic) {
-          row.style.fontStyle = 'italic';
-        }
-
-        // Set the background color
-        row.style.backgroundColor = backgroundColor;
-
-        // Set the top border
-        if (topBorder) {
-          row.style.borderTop = `${borderWidth}px ${borderStyle} ${borderColor}`;
-        }
-
-        // Set the bottom border
-        if (bottomBorder) {
-          row.style.borderBottom = `${borderWidth}px ${borderStyle} ${borderColor}`;
-        }
-
-        // Set alignment
-        for (const child of row.children) {
-          child.style.justifyContent = alignment;
-        }
-
-        // Set the rowHeader values to the rowHeader
-        rowHeader.style.fontFamily = rowHeaderFontFamily;
-        rowHeader.style.fontSize = `${rowHeaderFontSize}px`;
-        rowHeader.style.color = rowHeaderFontColor;
-        rowHeader.style.backgroundColor = rowHeaderBackground;
-        rowHeader.style.justifyContent = rowHeaderAlignment;
-        rowHeader.style.fontWeight = rowHeaderBold ? 'bold' : 'normal';
-        rowHeader.style.fontStyle = rowHeaderItalic ? 'italic' : 'normal';
+      // Toggle the grid api row height changed for reformatting IF value is NOT 25
+      if (height !== 25) {
+        this.gridOptions.api.onRowHeightChanged();
       }
     }
   }
 
+  // The function to format specific columns
   private static formatSpecificColumns() {
     const headerCells = Object(
       document.querySelectorAll('.ag-header-cell-text')
@@ -1838,152 +1827,145 @@ export class Matrix {
         continue;
       }
 
-      // Split the displayName and take the second element
-      const displayNameArray = card.displayName.split(' ');
+      // Applicable columns via the card savedName
+      const applicableColumns = card.savedName.value.split(',');
 
-      // remove the first element of displayName
-      displayNameArray.shift();
+      for (const displayName of applicableColumns) {
+        // Loop through the header cells to find the correct row
+        for (const header of headerCells) {
+          // Skip if they do not match
+          if (header.textContent !== displayName) {
+            continue;
+          }
 
-      // Join the displayName
-      const displayName = displayNameArray.join(' ');
+          // Get the columnAlignment from the card
+          const alignment = card.columnAlignment.value.value;
 
-      // Loop through the header cells to find the correct row
-      for (const header of headerCells) {
-        // Skip if they do not match
-        if (header.textContent !== displayName) {
-          continue;
+          // Get the columncBackgroundColor
+          const backgroundColor = hex2rgba(
+            card.columnBackgroundColor.value.value,
+            card.valuesOpacity.value
+          );
+
+          // Get the columnBold
+          const bold = card.columnBold.value;
+
+          // Get the columnItalic
+          const italic = card.columnItalic.value;
+
+          // Get the columnFontColor
+          const fontColor = card.columnFontColor.value.value;
+
+          // Get the columnFontFamily
+          const font = card.columnFontFamily.value;
+
+          // Get the columnFontSize
+          const fontSize = card.columnFontSize.value;
+
+          // Get the columnHeaderAlignment
+          const columnHeaderAlignment = card.columnHeaderAlignment.value.value;
+
+          // Get the columnHeaderBackgroundColor
+          const columnHeaderBackgroundColor = hex2rgba(
+            card.columnHeaderBackgroundColor.value.value,
+            card.opacity.value
+          );
+
+          console.log(columnHeaderBackgroundColor, 'columnHeaderBackgroundColor')
+
+          // Get the columnHeaderBold
+          const columnHeaderBold = card.columnHeaderBold.value;
+
+          // Get the columnHeaderFontColor
+          const columnHeaderFontColor = card.columnHeaderFontColor.value.value;
+
+          // Get the columnHeaderFontFamily
+          const columnHeaderFontFamily = card.columnHeaderFontFamily.value;
+
+          // Get the columnHeaderFontSize
+          const columnHeaderFontSize = card.columnHeaderFontSize.value;
+
+          // Get the columnHeaderItalic
+          const columnHeaderItalic = card.columnHeaderItalic.value;
+
+          // APPLIES TO HEADER AND REST OF COLUMN
+          // Get the columnWidth
+          const columnWidth = card.columnWidth.value;
+
+          // Get the enableLeftBorder
+          const enableLeftBorder = card.enableLeftBorder.value;
+
+          // Get the enableRightBorder
+          const enableRightBorder = card.enableRightBorder.value;
+
+          // Get the borderColor
+          const borderColor = hex2rgba(
+            card.borderColor.value.value,
+            card.borderOpacity.value
+          );
+
+          // Get the borderStyle
+          const borderStyle = card.borderStyle.value.value;
+
+          // Get the borderWidth
+          const borderWidth = card.borderWidth.value;
+
+          // Get the parent of the parent of parent of parent of the header to style the column
+          // This is due to line breaks being added from the top parent that could not get removed
+          const headerParent =
+            header.parentElement.parentElement.parentElement.parentElement;
+
+          // Get the col-id attribute value form the headerParent
+          const colId = headerParent.getAttribute('col-id');
+
+          // Get the column via col-id from querySelectorAll
+          const columnChildren = Object(
+            document.querySelectorAll(`[col-id="${colId}"]`)
+          );
+
+          for (const child of columnChildren) {
+            // // Apply styles to children
+            child.style.justifyContent = alignment;
+            child.style.backgroundColor = backgroundColor;
+            child.style.fontFamily = font;
+            child.style.fontSize = `${fontSize}px`;
+            child.style.color = fontColor;
+            child.style.fontWeight = bold ? 'bold' : 'normal';
+            child.style.fontStyle = italic ? 'italic' : 'normal';
+            child.style.borderLeft = enableLeftBorder
+              ? `${borderWidth}px ${borderStyle} ${borderColor}`
+              : 'none';
+
+            child.style.borderRight = enableRightBorder
+              ? `${borderWidth}px ${borderStyle} ${borderColor}`
+              : 'none';
+
+            child.style.borderBottom = 'none';
+            child.style.borderTop = 'none';
+          }
+
+          // Apply to the headerParent and the header from the header variables
+          // Set the column font
+          header.style.fontFamily = columnHeaderFontFamily;
+          header.style.fontStyle = columnHeaderItalic ? 'italic' : 'normal';
+          header.style.fontWeight = columnHeaderBold ? 'bold' : 'normal';
+          header.style.fontSize = `${columnHeaderFontSize}px`;
+          header.style.color = columnHeaderFontColor;
+          headerParent.style.backgroundColor = columnHeaderBackgroundColor;
+          headerParent.style.display = 'flex';
+          header.style.justifyContent = columnHeaderAlignment;
+
+          // Apply the column width
+          this.gridOptions.columnApi.setColumnWidths([
+            { key: colId, newWidth: columnWidth },
+          ]);
         }
-
-        // Get the columnAlignment from the card
-        const alignment = card.columnAlignment.value.value;
-
-        // Get the columncBackgroundColor
-        const backgroundColor = card.columnBackgroundColor.value.value;
-
-        // Get the columnBold
-        const bold = card.columnBold.value;
-
-        // Get the columnItalic
-        const italic = card.columnItalic.value;
-
-        // Get the columnFontColor
-        const fontColor = card.columnFontColor.value.value;
-
-        // Get the columnFontFamily
-        const font = card.columnFontFamily.value;
-
-        // Get the columnFontSize
-        const fontSize = card.columnFontSize.value;
-
-        // Get the columnHeaderAlignment
-        const columnHeaderAlignment = card.columnHeaderAlignment.value.value;
-
-        // Get the columnHeaderBackgroundColor
-        const columnHeaderBackgroundColor =
-          card.columnHeaderBackgroundColor.value.value;
-
-        // Get the columnHeaderBold
-        const columnHeaderBold = card.columnHeaderBold.value;
-
-        // Get the columnHeaderFontColor
-        const columnHeaderFontColor = card.columnHeaderFontColor.value.value;
-
-        // Get the columnHeaderFontFamily
-        const columnHeaderFontFamily = card.columnHeaderFontFamily.value;
-
-        // Get the columnHeaderFontSize
-        const columnHeaderFontSize = card.columnHeaderFontSize.value;
-
-        // Get the columnHeaderItalic
-        const columnHeaderItalic = card.columnHeaderItalic.value;
-
-        // APPLIES TO HEADER AND REST OF COLUMN
-        // Get the columnWidth
-        const columnWidth = card.columnWidth.value;
-
-        // Get the enableLeftBorder
-        const enableLeftBorder = card.enableLeftBorder.value;
-
-        // Get the enableRightBorder
-        const enableRightBorder = card.enableRightBorder.value;
-
-        // Get the borderColor
-        const borderColor = card.borderColor.value.value;
-
-        // Get the borderStyle
-        const borderStyle = card.borderStyle.value.value;
-
-        // Get the borderWidth
-        const borderWidth = card.borderWidth.value;
-
-        // Get the parent of the parent of parent of parent of the header to style the column
-        // This is due to line breaks being added from the top parent that could not get removed
-        const headerParent =
-          header.parentElement.parentElement.parentElement.parentElement;
-
-        // Get the col-id attribute value form the headerParent
-        const colId = headerParent.getAttribute('col-id');
-
-        // Get the column via col-id from querySelectorAll
-        const columnChildren = Object(
-          document.querySelectorAll(`[col-id="${colId}"]`)
-        );
-
-        for (const child of columnChildren) {
-          // // Apply styles to children
-          child.style.justifyContent = alignment;
-          child.style.backgroundColor = backgroundColor;
-          child.style.fontFamily = font;
-          child.style.fontSize = `${fontSize}px`;
-          child.style.color = fontColor;
-          child.style.fontWeight = bold ? 'bold' : 'normal';
-          child.style.fontStyle = italic ? 'italic' : 'normal';
-          child.style.borderLeft = enableLeftBorder
-            ? `${borderWidth}px ${borderStyle} ${borderColor}`
-            : 'none';
-
-          child.style.borderRight = enableRightBorder
-            ? `${borderWidth}px ${borderStyle} ${borderColor}`
-            : 'none';
-
-          child.style.borderBottom = 'none';
-          child.style.borderTop = 'none';
-
-          // child.style.fontFamily = font;
-          // child.style.fontSize = `${fontSize}px`;
-        }
-
-        // Apply to the headerParent from the header variables
-        // Set the column font
-        headerParent.style.fontFamily = columnHeaderFontFamily;
-        headerParent.style.fontStyle = columnHeaderItalic ? 'italic' : 'normal';
-        headerParent.style.fontWeight = columnHeaderBold ? 'bold' : 'normal';
-        headerParent.style.fontSize = `${columnHeaderFontSize}px`;
-        headerParent.style.color = columnHeaderFontColor;
-        headerParent.style.backgroundColor = columnHeaderBackgroundColor;
-        headerParent.style.display = 'flex';
-        header.style.justifyContent = columnHeaderAlignment;
-
-        header.parentElement.parentElement.parentElement.style.width = `${columnWidth}px`;
-
-        // Get the current width to push it as a margin dud to the change
-        const currentWidth = this.gridOptions.columnApi
-          .getColumn(colId)
-          .getActualWidth();
-
-        const difference = columnWidth - currentWidth;
-
-        console.log(difference);
-
-        console.log(currentWidth, columnWidth);
-
-        // Apply the margin
-        // headerParent.style.marginRight = `${columnWidth-difference}px`;
       }
     }
   }
 }
 
+// HEX TO RGBA CONVERTER FUNCTION
 function hex2rgba(hex, alpha = 1) {
   const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
   return `rgba(${r},${g},${b},${alpha / 100})`;

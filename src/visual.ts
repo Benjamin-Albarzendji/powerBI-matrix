@@ -25,7 +25,7 @@ import ISelectionId = powerbi.visuals.ISelectionId;
 import ISelectionIdBuilder = powerbi.visuals.ISelectionIdBuilder;
 
 // Formatting model
-import { VisualFormattingSettingsModel, setDataView } from './settings';
+import { VisualFormattingSettingsModel } from './settings';
 
 // Style sheet
 import './../style/visual.less';
@@ -59,7 +59,6 @@ export class Visual implements IVisual {
     // Host and Selection Manager
     this.host = options.host;
     this.selectionManager = this.host.createSelectionManager();
-    // this.handleContextMenu();
 
     // Do we need this?
     this.target.style.overflowY = 'auto';
@@ -81,12 +80,6 @@ export class Visual implements IVisual {
 
     // The matrix data view
     const matrixDataView: DataViewMatrix = dataView.matrix;
-
-    // Set dataView in the settings
-    setDataView(dataView);
-
-    // CHECK IF THIS WORKS OUT
-    // console.log(this.selectionManager.hasSelection())
 
     this.formattingSettings =
       this.formattingSettingsService.populateFormattingSettingsModel(
@@ -146,156 +139,11 @@ export class Visual implements IVisual {
    */
 
   public getFormattingModel(): powerbi.visuals.FormattingModel {
-    // console.log('Inside');
-
-    // let rowSubTotals =
-    //   this.dataView.metadata.objects.subTotals.rowSubtotals === undefined
-    //     ? false
-    //     : this.dataView.metadata.objects.subTotals.rowSubtotals;
-
-    //     let expansionUp =
-    //     this.dataView.metadata.objects.expansion.expandUp === undefined
-    //       ? false
-    //       : this.dataView.metadata.objects.expansion.expandUp;
-
-    // const myCustomCard: powerbi.visuals.FormattingCard = {
-    //   displayName: 'My Custom Object Card',
-    //   uid: 'myCustomObjectCard_uid',
-    //   groups: [
-    //     {
-    //       displayName: undefined,
-    //       uid: 'myCustomObjectGroup_uid',
-    //       slices: [
-    //         {
-    //           uid: 'myCustomProperty_uid',
-    //           displayName: 'My Custom Property',
-    //           control: {
-    //             type: powerbi.visuals.FormattingComponent.ColorPicker,
-    //             properties: {
-    //               descriptor: {
-    //                 objectName: 'myCustomObject',
-    //                 propertyName: 'myCustomProperty',
-    //                 selector: null, // selector is optional
-    //               },
-    //               value: { value: '#FFFFFF' },
-    //             },
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
-
-    // const ExpansionCard: powerbi.visuals.FormattingCard = {
-    //   displayName: 'Expansion',
-    //   uid: 'expansionCard_uid',
-    //   groups: [
-    //     {
-    //       displayName: 'Expand Upwards',
-    //       uid: 'ExpandUpwardsGroup_uid',
-    //       slices: [
-
-    //         {
-    //           uid: 'expansion_expand_upwards_slice',
-    //           displayName: 'Expand Upwards',
-
-    //           control: {
-    //             type: powerbi.visuals.FormattingComponent.ToggleSwitch,
-    //             properties: {
-    //               descriptor: {
-    //                 objectName: 'expansion',
-    //                 propertyName: 'expandUp',
-    //                 selector: null,
-    //               },
-    //               value: Boolean(expansionUp),
-    //             },
-    //           },
-    //         },
-
-    //         {
-    //           uid: 'ExpandUpwardsProperty_uidd',
-    //           displayName: 'Enable Buttons',
-
-    //           control: {
-    //             type: powerbi.visuals.FormattingComponent.ToggleSwitch,
-    //             properties: {
-    //               descriptor: {
-    //                 objectName: 'expansion',
-    //                 propertyName: 'enableButtons',
-    //                 selector: null,
-    //               },
-    //               value: false,
-    //             },
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
-
-    // const SubTotalsCard: powerbi.visuals.FormattingCard = {
-    //   displayName: 'Subtotals',
-    //   uid: 'SubTotalsCard_uid',
-    //   groups: [
-    //     {
-    //       displayName: undefined,
-    //       uid: 'mySubTotalsCardGroup_uid',
-    //       slices: [
-    //         {
-    //           uid: 'SubtotalsProperty_uid',
-    //           displayName: 'Row Subtotals',
-    //           control: {
-    //             type: powerbi.visuals.FormattingComponent.ToggleSwitch,
-    //             properties: {
-    //               descriptor: {
-    //                 objectName: 'subTotals',
-    //                 propertyName: 'rowSubtotals',
-    //                 selector: null,
-    //               },
-    //               value: Boolean(rowSubTotals),
-    //             },
-    //           },
-    //         },
-    //         {
-    //           uid: 'SubtotalsPropersty_uid',
-    //           displayName: 'Per row level',
-    //           control: {
-    //             type: powerbi.visuals.FormattingComponent.ToggleSwitch,
-    //             properties: {
-    //               descriptor: {
-    //                 objectName: 'subTotals',
-    //                 propertyName: 'perRowLevel',
-    //                 selector: null,
-    //               },
-    //               value:
-    //                 this.dataView.metadata.objects.subTotals.perRowLevel ===
-    //                 true
-    //                   ? false
-    //                   : true,
-    //             },
-    //           },
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // };
-
-    // // const testCard = [myCustomCard, SubTotalsCard];
-
-    // console.log(this.formattingSettings.cards, 'here');
-
-    // // this.formattingSettings.cards.push(myCustomCard)
-
-    // const test: powerbi.visuals.FormattingModel = {
-    //   cards: [ExpansionCard, myCustomCard, SubTotalsCard],
-    // };
-
-    // console.log(test);
-
-    // this.formattingSettingsService.buildFormattingModel(
-    //   this.formattingSettings)
-
-    // return test;
+    for (const card of this.formattingSettings.cards) {
+      if (card.name.includes('specificRow')) {
+        (card as any).visibility();
+      }
+    }
 
     return this.formattingSettingsService.buildFormattingModel(
       this.formattingSettings
