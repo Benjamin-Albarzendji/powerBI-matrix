@@ -776,6 +776,197 @@
         }
       }
     },
+    "total": {
+      "properties": {
+        "enableCard": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "savedName": {
+          "type": {
+            "text": true
+          }
+        },
+
+        "rowHeaderIndentation": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "indentation": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderOpacity": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "height": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "opacity": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "headerOpacity": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "enableBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderAlignment": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "rowHeaderBackground": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "rowHeaderFontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "rowHeaderFontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "rowHeaderBold": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "rowHeaderItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTopBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+        "enableBottomBorder": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "borderWidth": {
+          "type": {
+            "numeric": true
+          }
+        },
+
+        "borderColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "borderStyle": {
+          "type": {
+            "enumeration": []
+          }
+        },
+
+        "fontFamily": {
+          "type": {
+            "formatting": {
+              "fontFamily": true
+            }
+          }
+        },
+
+        "fontSize": {
+          "type": {
+            "formatting": {
+              "fontSize": true
+            }
+          }
+        },
+
+        "fontColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "enableItalic": {
+          "type": {
+            "bool": true
+          }
+        },
+        "backgroundColor": {
+          "type": {
+            "fill": {
+              "solid": {
+                "color": true
+              }
+            }
+          }
+        },
+
+        "alignment": {
+          "type": {
+            "enumeration": []
+          }
+        }
+      }
+    },
     "specificRow1": {
       "properties": {
         "enableCard": {

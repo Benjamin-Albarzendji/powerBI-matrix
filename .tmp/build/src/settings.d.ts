@@ -49,6 +49,7 @@ declare class RowSettingsCard extends FormattingSettingsCard {
 }
 declare class RowHeadersSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
+    visibility: () => void;
     enableCard: formattingSettings.ToggleSwitch;
     borderOpacity: formattingSettings.NumUpDown;
     fontFamily: formattingSettings.FontPicker;
@@ -82,6 +83,7 @@ declare class ColumnSettingsCard extends FormattingSettingsCard {
 }
 declare class colHeadersSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
+    visibility: () => void;
     enableCard: formattingSettings.ToggleSwitch;
     borderOpacity: formattingSettings.NumUpDown;
     fontFamily: formattingSettings.FontPicker;
@@ -136,8 +138,42 @@ declare class SpecificRowSettingsCard extends FormattingSettingsCard {
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }
+declare class totalSettingsCard extends FormattingSettingsCard {
+    constructor(name: any, displayName: any);
+    visibility: () => void;
+    height: formattingSettings.NumUpDown;
+    opacity: formattingSettings.NumUpDown;
+    rowHeaderAlignment: formattingSettings.ItemDropdown;
+    rowHeaderBackground: formattingSettings.ColorPicker;
+    headerOpacity: formattingSettings.NumUpDown;
+    rowHeaderFontColor: formattingSettings.ColorPicker;
+    rowHeaderFontFamily: formattingSettings.FontPicker;
+    rowHeaderFontSize: formattingSettings.NumUpDown;
+    rowHeaderBold: formattingSettings.ToggleSwitch;
+    rowHeaderItalic: formattingSettings.ToggleSwitch;
+    fontFamily: formattingSettings.FontPicker;
+    fontSize: formattingSettings.NumUpDown;
+    fontColor: formattingSettings.ColorPicker;
+    enableBold: formattingSettings.ToggleSwitch;
+    enableItalic: formattingSettings.ToggleSwitch;
+    alignment: formattingSettings.ItemDropdown;
+    backgroundColor: formattingSettings.ColorPicker;
+    enableTopBorder: formattingSettings.ToggleSwitch;
+    enableBottomBorder: formattingSettings.ToggleSwitch;
+    borderWidth: formattingSettings.NumUpDown;
+    borderColor: formattingSettings.ColorPicker;
+    borderStyle: formattingSettings.ItemDropdown;
+    borderOpacity: formattingSettings.NumUpDown;
+    rowHeaderIndentation: formattingSettings.NumUpDown;
+    indentation: formattingSettings.NumUpDown;
+    savedName: formattingSettings.TextInput;
+    enableCard: formattingSettings.ToggleSwitch;
+    visible?: boolean;
+    slices: Array<FormattingSettingsSlice>;
+}
 declare class SpecificColumnSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
+    visibility: () => void;
     enableCard: formattingSettings.ToggleSwitch;
     savedName: formattingSettings.TextArea;
     columnWidth: formattingSettings.NumUpDown;
@@ -176,6 +212,7 @@ export declare class VisualFormattingSettingsModel extends FormattingSettingsMod
     rowHeadersCard: RowHeadersSettingsCard;
     columnCard: ColumnSettingsCard;
     colHeadersCard: colHeadersSettingsCard;
+    totalCard: totalSettingsCard;
     specificRowCard1: SpecificRowSettingsCard;
     specificRowCard2: SpecificRowSettingsCard;
     specificRowCard3: SpecificRowSettingsCard;
@@ -186,6 +223,6 @@ export declare class VisualFormattingSettingsModel extends FormattingSettingsMod
     specificColumnCard2: SpecificColumnSettingsCard;
     specificColumnCard3: SpecificColumnSettingsCard;
     specificColumnCard4: SpecificColumnSettingsCard;
-    cards: (ColumnSettingsCard | colHeadersSettingsCard | RowSettingsCard | ExpansionSettingsCard | RowHeadersSettingsCard | SpecificColumnSettingsCard | SpecificRowSettingsCard)[];
+    cards: (ColumnSettingsCard | colHeadersSettingsCard | RowSettingsCard | ExpansionSettingsCard | RowHeadersSettingsCard | totalSettingsCard | SpecificColumnSettingsCard | SpecificRowSettingsCard)[];
 }
 export {};

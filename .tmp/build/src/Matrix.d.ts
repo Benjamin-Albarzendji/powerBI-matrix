@@ -7,6 +7,7 @@ export declare class Matrix {
     static rowData: any[];
     static selectionManager: ISelectionManager;
     static host: any;
+    static pinnedTotalRow: any;
     static formattingSettings: any;
     static dataView: any;
     static rowLevels: powerbi.DataViewHierarchyLevel[];
@@ -44,4 +45,5 @@ export declare class Matrix {
     private static formatColHeaders;
     private static formatSpecificRows;
     private static formatSpecificColumns;
+    private static formatTotal;
 }

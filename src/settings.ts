@@ -351,6 +351,17 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
     this.displayName = displayName;
   }
 
+  // This function is used to hide the card slices if the enableCard toggle is off
+  visibility = function () {
+    for (const slice of this.slices) {
+      if (slice.name === 'enableCard') {
+        continue;
+      }
+
+      slice.visible = this.enableCard.value ? true : false;
+    }
+  };
+
   enableCard: formattingSettings.ToggleSwitch =
     new formattingSettings.ToggleSwitch({
       name: 'enableCard',
@@ -533,6 +544,17 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
     this.name = name;
     this.displayName = displayName;
   }
+
+  // This function is used to hide the card slices if the enableCard toggle is off
+  visibility = function () {
+    for (const slice of this.slices) {
+      if (slice.name === 'enableCard') {
+        continue;
+      }
+
+      slice.visible = this.enableCard.value ? true : false;
+    }
+  };
 
   enableCard: formattingSettings.ToggleSwitch =
     new formattingSettings.ToggleSwitch({
@@ -928,6 +950,248 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
   ];
 }
 
+class totalSettingsCard extends FormattingSettingsCard {
+  constructor(name, displayName) {
+    super();
+
+    this.name = name;
+    this.displayName = displayName;
+  }
+
+  // This function is used to hide the card slices if the enableCard toggle is off
+  visibility = function () {
+    for (const slice of this.slices) {
+      if (slice.name === 'enableCard') {
+        continue;
+      }
+
+      slice.visible = this.enableCard.value ? true : false;
+    }
+  };
+
+  height: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'height',
+    displayName: 'Row Height',
+    value: 25,
+  });
+
+  opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'opacity',
+    displayName: 'Background Opacity',
+    value: 100,
+  });
+
+  rowHeaderAlignment = new formattingSettings.ItemDropdown({
+    name: 'rowHeaderAlignment',
+    displayName: 'Row Header Alignment',
+    value: { value: 'flex-end', displayName: 'Right' },
+
+    items: [
+      { value: 'flex-start', displayName: 'Left' },
+      { value: 'center', displayName: 'Center' },
+      { value: 'flex-end', displayName: 'Right' },
+    ],
+  });
+
+  rowHeaderBackground = new formattingSettings.ColorPicker({
+    name: 'rowHeaderBackground',
+    displayName: 'Header Background Color',
+    value: { value: '#ffffff' },
+  });
+
+  headerOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'headerOpacity',
+      displayName: 'Background Opacity',
+      value: 100,
+    });
+
+  rowHeaderFontColor = new formattingSettings.ColorPicker({
+    name: 'rowHeaderFontColor',
+    displayName: 'Row Header Font Color',
+    value: { value: '#000000' },
+  });
+
+  rowHeaderFontFamily = new formattingSettings.FontPicker({
+    name: 'rowHeaderFontFamily',
+    displayName: 'Row Header Font',
+    value: 'Segoe UI',
+  });
+
+  rowHeaderFontSize = new formattingSettings.NumUpDown({
+    name: 'rowHeaderFontSize',
+    displayName: 'Row Header Font Size',
+    value: 13,
+  });
+
+  rowHeaderBold = new formattingSettings.ToggleSwitch({
+    name: 'rowHeaderBold',
+    displayName: 'Bold Row Header',
+    value: false,
+  });
+
+  rowHeaderItalic = new formattingSettings.ToggleSwitch({
+    name: 'rowHeaderItalic',
+    displayName: 'Italicize Row Header',
+    value: false,
+  });
+
+  fontFamily = new formattingSettings.FontPicker({
+    name: 'fontFamily',
+    displayName: 'Values Font',
+    value: 'Segoe UI',
+  });
+
+  fontSize: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'fontSize',
+    displayName: 'Values Text Size',
+    value: 13,
+  });
+
+  fontColor = new formattingSettings.ColorPicker({
+    name: 'fontColor',
+    displayName: 'Values Font Color',
+    value: { value: '#000000' },
+  });
+
+  enableBold = new formattingSettings.ToggleSwitch({
+    name: 'enableBold',
+    displayName: 'Bold Values ',
+    value: false,
+  });
+
+  enableItalic = new formattingSettings.ToggleSwitch({
+    name: 'enableItalic',
+    displayName: 'Italicize Values',
+    value: false,
+  });
+
+  alignment = new formattingSettings.ItemDropdown({
+    name: 'alignment',
+    displayName: 'Values Alignment',
+    value: { value: 'flex-end', displayName: 'Right' },
+
+    items: [
+      { value: 'flex-start', displayName: 'Left' },
+      { value: 'center', displayName: 'Center' },
+      { value: 'flex-end', displayName: 'Right' },
+    ],
+  });
+
+  backgroundColor = new formattingSettings.ColorPicker({
+    name: 'backgroundColor',
+    displayName: 'Values Background Color',
+    value: { value: '#ffffff' },
+  });
+
+  enableTopBorder = new formattingSettings.ToggleSwitch({
+    name: 'enableTopBorder',
+    displayName: 'Show Top Border',
+    value: false,
+  });
+
+  enableBottomBorder = new formattingSettings.ToggleSwitch({
+    name: 'enableBottomBorder',
+    displayName: 'Show Bottom Border',
+    value: false,
+  });
+
+  borderWidth = new formattingSettings.NumUpDown({
+    name: 'borderWidth',
+    displayName: 'Border Width',
+    value: 1,
+  });
+
+  borderColor = new formattingSettings.ColorPicker({
+    name: 'borderColor',
+    displayName: 'Border Color',
+    value: { value: '#000000' },
+  });
+
+  borderStyle = new formattingSettings.ItemDropdown({
+    name: 'borderStyle',
+    displayName: 'Border Style',
+    value: { value: 'solid', displayName: 'Solid' },
+
+    items: [
+      { value: 'solid', displayName: 'Solid' },
+      { value: 'dotted', displayName: 'Dotted' },
+      { value: 'dashed', displayName: 'Dashed' },
+      { value: 'double', displayName: 'Double' },
+      { value: 'groove', displayName: 'Groove' },
+      { value: 'ridge', displayName: 'Ridge' },
+      { value: 'inset', displayName: 'Inset' },
+      { value: 'outset', displayName: 'Outset' },
+    ],
+  });
+
+  borderOpacity: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'borderOpacity',
+      displayName: 'Border Opacity',
+      value: 100,
+    });
+
+  rowHeaderIndentation: formattingSettings.NumUpDown =
+    new formattingSettings.NumUpDown({
+      name: 'rowHeaderIndentation',
+      displayName: 'Row Header Indentation',
+      value: 0,
+    });
+
+  indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
+    name: 'indentation',
+    displayName: 'Values Indentation',
+    value: 0,
+  });
+
+  savedName = new formattingSettings.TextInput({
+    name: 'savedName',
+    displayName: 'Custom Label',
+    value: 'Total',
+    placeholder: 'Enter a custom label for the total row',
+    description: 'Enter a custom label for the total row',
+  });
+
+  enableCard: formattingSettings.ToggleSwitch =
+    new formattingSettings.ToggleSwitch({
+      name: 'enableCard',
+      displayName: 'Show Total Row',
+      value: true,
+    });
+
+  visible?: boolean = true;
+  slices: Array<FormattingSettingsSlice> = [
+    this.enableCard,
+    this.savedName,
+    this.height,
+    this.rowHeaderIndentation,
+    this.rowHeaderFontFamily,
+    this.rowHeaderFontColor,
+    this.rowHeaderFontSize,
+    this.rowHeaderBold,
+    this.rowHeaderItalic,
+    this.rowHeaderAlignment,
+    this.rowHeaderBackground,
+    this.headerOpacity,
+    this.indentation,
+    this.fontFamily,
+    this.fontColor,
+    this.fontSize,
+    this.enableBold,
+    this.enableItalic,
+    this.alignment,
+    this.backgroundColor,
+    this.opacity,
+    this.enableTopBorder,
+    this.enableBottomBorder,
+    this.borderWidth,
+    this.borderColor,
+    this.borderStyle,
+    this.borderOpacity,
+  ];
+}
+
 class SpecificColumnSettingsCard extends FormattingSettingsCard {
   constructor(name, displayName) {
     super();
@@ -935,6 +1199,17 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
     this.name = name;
     this.displayName = displayName;
   }
+
+  // This function is used to hide the card slices if the enableCard toggle is off
+  visibility = function () {
+    for (const slice of this.slices) {
+      if (slice.name === 'enableCard') {
+        continue;
+      }
+
+      slice.visible = this.enableCard.value ? true : false;
+    }
+  };
 
   enableCard: formattingSettings.ToggleSwitch =
     new formattingSettings.ToggleSwitch({
@@ -1157,6 +1432,7 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
   rowHeadersCard = new RowHeadersSettingsCard('rowHeaders', 'Row Headers');
   columnCard = new ColumnSettingsCard('columns', 'Column Formatting');
   colHeadersCard = new colHeadersSettingsCard('colHeaders', 'Column Headers');
+  totalCard = new totalSettingsCard('total', 'Total Row');
 
   specificRowCard1 = new SpecificRowSettingsCard(
     'specificRow0',
@@ -1206,6 +1482,7 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
     this.rowCard,
     this.expansionCard,
     this.rowHeadersCard,
+    this.totalCard,
     this.specificColumnCard0,
     this.specificColumnCard1,
     this.specificColumnCard2,

@@ -139,9 +139,12 @@ export class Visual implements IVisual {
    */
 
   public getFormattingModel(): powerbi.visuals.FormattingModel {
+    // Toggle the visibility function in cards that have it
     for (const card of this.formattingSettings.cards) {
-      if (card.name.includes('specificRow')) {
+      try {
         (card as any).visibility();
+      } catch {
+        continue;
       }
     }
 
