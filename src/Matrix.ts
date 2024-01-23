@@ -10,6 +10,7 @@ import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import { valueFormatter } from 'powerbi-visuals-utils-formattingutils';
 import { line, max } from 'd3';
 import { getMaxWordWidth } from 'powerbi-visuals-utils-formattingutils/lib/src/wordBreaker';
+import { contains } from 'powerbi-visuals-utils-formattingutils/lib/src/stringExtensions';
 
 export class Matrix {
   // The columnDefs array to hold columns
@@ -138,7 +139,11 @@ export class Matrix {
       // Format specific rows
       this.formatSpecificRows();
 
+      // Format the total row
       this.formatTotal();
+
+      // Format the height change
+      this.onFinishHeightChange();
     },
 
     onViewportChanged: (params) => {
@@ -163,7 +168,11 @@ export class Matrix {
       // Format specific rows
       this.formatSpecificRows();
 
+      // Format the total row
       this.formatTotal();
+
+      // Format the height change
+      this.onFinishHeightChange();
     },
 
     // rowSelection: 'multiple', // allow rows to be selected
@@ -487,7 +496,11 @@ export class Matrix {
 
       // Pushes a "Total" field as the last field
       const lengthOfColumnDefs = columnDefs.length;
-      columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+
+      // This check is neccessary if calculation groups are used. With normal columns it is undefined, otherwise it has a clear label.
+      if (columnDefs[lengthOfColumnDefs - 1]['field'] === undefined) {
+        columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+      }
     }
 
     // Updates the columnDefs in the object,
@@ -496,6 +509,8 @@ export class Matrix {
     // Row Data
     const rowData: object[] = [];
 
+    // A valueSOurceIndexBackup in case of calculation groups (Which always has the same valuesource if in columns!)
+    let valueSourcesIndexBackUp = 0;
     // Loop through children for when columns and rows exist
     matrix.rows.root.children.forEach((row) => {
       // Identity holder to be reset every loop. We need these for row expansion
@@ -528,10 +543,13 @@ export class Matrix {
         Object.values(rowValues).forEach((value) => {
           const valueFormatted = this.valueFormatterMatrix(
             value.value,
-            value.valueSourceIndex
+            value.valueSourceIndex === undefined
+              ? valueSourcesIndexBackUp
+              : value.valueSourceIndex
           );
           rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
 
+          valueSourcesIndexBackUp++;
           index++;
         });
       }
@@ -558,6 +576,8 @@ export class Matrix {
         // Increment index
         index++;
 
+        // Valuesource index back up (For calculation groups)
+        let valueSourcesIndexBackUp = 0;
         // Try catch as sometimes it is values and sometimes it is children, but they never exist together in the dataView.
         try {
           // Loop through last level of children and insert into rowObj
@@ -565,13 +585,16 @@ export class Matrix {
             // Come back
             const valueFormatted = this.valueFormatterMatrix(
               value.value,
-              value.valueSourceIndex
+              value.valueSourceIndex === undefined
+                ? valueSourcesIndexBackUp
+                : value.valueSourceIndex
             );
 
             rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
 
             // Increment the index counter
             index++;
+            valueSourcesIndexBackUp++;
           });
 
           // If catch then it is children and we need to recursively loop through them
@@ -694,10 +717,18 @@ export class Matrix {
 
     // Checking if there is a total row to pin to the bottom of the grid
     const total = rowData.pop();
+
+    // If the total is not "Total" then push it back into the rowData
     if (total[dynamicHeader as keyof typeof total] !== 'Total') {
       rowData.push(total);
     }
 
+    // If only measures and columns are added then push it back (As you only have one row and it is the total)
+    if (rowData.length === 0) {
+      rowData.push(total);
+    }
+
+    // A total row in the class field in case it should be refered to later
     this.pinnedTotalRow = total;
 
     // Populate the gridOptions
@@ -712,8 +743,10 @@ export class Matrix {
     // Creates the final Grid
     new agGrid.Grid(gridDiv, gridOptions);
 
-    // FIXXX LATER WITH FORMATTING SETTINGS
-    gridOptions.api.setPinnedBottomRowData([total]);
+    // Set the pinned bottom row data
+    if (total[dynamicHeader as keyof typeof total] === 'Total') {
+      gridOptions.api.setPinnedBottomRowData([total]);
+    }
 
     // Return a finished DIV to be attached
     return gridDiv;
@@ -767,6 +800,9 @@ export class Matrix {
     // Increment index
     index++;
 
+    // Valuesource index back up (For calculation groups)
+    let valueSourcesIndexBackUp = 0;
+
     // Create a temporary holding array for sorting
     const tempRowChildren = [...this.tempRowChildren];
 
@@ -774,15 +810,19 @@ export class Matrix {
     try {
       // Loop through last level of children and insert into rowObj
       Object.values(rowValues).forEach((value) => {
+        console.log(value['valueSourceIndex']);
         const valueFormatted = this.valueFormatterMatrix(
           value['value'],
-          value['valueSourceIndex']
+          value['valueSourceIndex'] === undefined
+            ? valueSourcesIndexBackUp
+            : value['valueSourceIndex']
         );
 
         rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
 
         // Increment the index counter
         index++;
+        valueSourcesIndexBackUp++;
       });
 
       // If expand upwards splice and merge the arrays otherwise just insert
@@ -1237,8 +1277,14 @@ export class Matrix {
       return;
     }
 
-    // If the row level length is 1, return as we do not want to format rows that cannot be expanded/Have buttons
-    if (!this.dataView.matrix.rows.levels[0].hasOwnProperty('canBeExpanded')) {
+    try {
+      // If the row level length is 1, return as we do not want to format rows that cannot be expanded/Have buttons
+      if (
+        !this.dataView.matrix.rows.levels[0].hasOwnProperty('canBeExpanded')
+      ) {
+        return;
+      }
+    } catch {
       return;
     }
 
@@ -1379,11 +1425,6 @@ export class Matrix {
         }
       } catch (e) {}
     }
-    // The grid API needs to recalculate the height of the rows if the row height has changed
-    // NO NEED FOR IT TO RUN IF VALUE IS 25 AS IT IS THE DEFAULT
-    if (expansionCard.height.value !== 25) {
-      this.gridOptions.api.onRowHeightChanged();
-    }
   }
 
   // Format the rows to get a filled background color. The function was reduced from a more complex function as the rest was integrated into the grid
@@ -1404,6 +1445,7 @@ export class Matrix {
       // (row.style.backgroundColor = backgroundColor),
 
       row.style.backgroundImage = `linear-gradient(to right, ${backgroundColor} 100%, white 100%)`;
+
       // Row borders
       (row.style.borderTop = rowCard.enableTopBorder.value
         ? `${rowCard.borderWidth.value}px ${
@@ -1501,15 +1543,74 @@ export class Matrix {
       valueSourceIndex = 0;
     }
 
-    // Get the valueSource
-    const valueSource = valueSources[valueSourceIndex];
+    let formatString;
+    let valueSource;
+
+    // Get length of valueSources to ensure we not go out of bounds
+    const length = valueSources.length;
+
+    // Ensure that the valueSourceIndex is not out of bounds
+    if (valueSourceIndex <= length - 1) {
+      // Get the valueSource
+      valueSource = valueSources[valueSourceIndex];
+    }
+    // Backup incase if it fails with calc group columns
+    if (length === 1) {
+      valueSource = valueSources[0];
+    }
 
     // Get the format string
-    let formatString = valueSource.format;
+    formatString = valueSource.format;
 
-    // If the formatString is undefined (Which happens if an implicit measure OR the measure is set to automatic) then set to the default formatString
+    // If the attempt fails (as in undefined) then it means the project is using dynamic font strings and must search in different place
     if (formatString === undefined) {
-      formatString = '0.00';
+      try {
+        // Get the length of the children. You have to play around with the length as the first row, for some reason, lacks formatting strings
+        let length = this.dataView.matrix.rows.root.children.length;
+
+        // Length check to ensure we never go out of bounds (As the first row lacks a format string if there are several rows)
+        if (length > 1) {
+          length = 1;
+        } else {
+          length = 0;
+        }
+
+        // Ensure there is a values property
+        if (
+          this.dataView.matrix.rows.root.children[length].hasOwnProperty(
+            'values'
+          )
+        ) {
+          formatString =
+            this.dataView.matrix.rows.root.children[length].values[
+              valueSourceIndex
+            ].objects.general.formatString;
+        } else {
+          // Get the nested values
+          const values = getNestedValues(
+            this.dataView.matrix.rows.root.children
+          );
+
+          formatString = values[valueSourceIndex].objects.general.formatString;
+        }
+
+        if (
+          formatString === undefined ||
+          formatString === null ||
+          formatString === ''
+        ) {
+          formatString = '0.00';
+        }
+      } catch {
+        // If the formatString is undefined OR NULL (Which happens if an implicit measure OR the measure is set to automatic) then set to the default formatString
+        if (
+          formatString === undefined ||
+          formatString === null ||
+          formatString === ''
+        ) {
+          formatString = '0.00';
+        }
+      }
     }
 
     // Create the value formatter with the formatString
@@ -1523,6 +1624,7 @@ export class Matrix {
       formattedValue = '';
     }
 
+    console.log(formattedValue, "I'M HERE");
     // Return the formattedValue
     return formattedValue;
   }
@@ -1804,6 +1906,8 @@ export class Matrix {
             child.style.backgroundColor = 'RGBA(0,0,0,0)';
           }
 
+          row.style.marginBottom = '5px';
+
           // Get the rowheader width for the linear gradient
           const rowHeaderWidth = rowHeader.offsetWidth;
 
@@ -1825,11 +1929,6 @@ export class Matrix {
           rowHeader.style.fontStyle = rowHeaderItalic ? 'italic' : 'normal';
           rowHeader.style.textIndent = `${card.rowHeaderIndentation.value}px`;
         }
-      }
-
-      // Toggle the grid api row height changed for reformatting IF value is NOT 25
-      if (height !== 25) {
-        this.gridOptions.api.onRowHeightChanged();
       }
     }
   }
@@ -1992,6 +2091,11 @@ export class Matrix {
     // Get all the categoryCells
     const totalRow = document.querySelector('.ag-row-pinned') as HTMLElement;
 
+    // Return if totalrow does not exist
+    if (totalRow === null) {
+      return;
+    }
+
     // Formatting card
     const card = this.formattingSettings.totalCard;
 
@@ -2083,7 +2187,10 @@ export class Matrix {
     )} ${rowHeaderWidth}px)`;
 
     // Apply the custom label
-    rowHeader.textContent = totalTextContent;
+    rowHeader.textContent =
+      rowHeader.textContent === 'Total'
+        ? totalTextContent
+        : rowHeader.textContent;
 
     // Set the rowHeader values to the rowHeader
     rowHeader.style.fontFamily = rowHeaderFontFamily;
@@ -2098,12 +2205,12 @@ export class Matrix {
     totalRow.parentElement.parentElement.parentElement.style.border = 'none';
 
     // Set the top border
-    totalRow.parentElement.parentElement.style.borderTop = topBorder
+    totalRow.style.borderTop = topBorder
       ? `${borderWidth}px ${borderStyle} ${borderColor}`
       : 'none';
 
     // Set the bottom border
-    totalRow.parentElement.parentElement.style.borderBottom = bottomBorder
+    totalRow.style.borderBottom = bottomBorder
       ? `${borderWidth}px ${borderStyle} ${borderColor}`
       : 'none';
 
@@ -2128,6 +2235,9 @@ export class Matrix {
         continue;
       }
 
+      // Remove left and right borders of children
+      child.style.border = 'none';
+
       // Child alignment
       child.style.justifyContent = alignment;
 
@@ -2149,10 +2259,11 @@ export class Matrix {
       // Set the indentation
       child.style.textIndent = `${card.indentation.value}px`;
     }
-    // Toggle the grid api row height changed for reformatting IF value is NOT 25
-    if (height !== 25) {
-      this.gridOptions.api.onRowHeightChanged();
-    }
+  }
+
+  // Reorganies the grid after height changes via the API
+  private static onFinishHeightChange() {
+    this.gridOptions.api.onRowHeightChanged();
   }
 }
 
@@ -2160,4 +2271,21 @@ export class Matrix {
 function hex2rgba(hex, alpha = 1) {
   const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
   return `rgba(${r},${g},${b},${alpha / 100})`;
+}
+
+function getNestedValues(children) {
+  let skip = true;
+  for (const child of children) {
+    if (child.hasOwnProperty('values')) {
+      return child.values;
+    }
+
+    if (child.hasOwnProperty('children')) {
+      if (skip && children.length > 1) {
+        skip = false;
+        continue;
+      }
+      return getNestedValues(child.children);
+    }
+  }
 }

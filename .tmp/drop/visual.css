@@ -176,9 +176,6 @@ div.dhx_modal_cover_dv {
 .ag-center-cols-viewport {
   background-color: white;
 }
-.ag-cell {
-  line-height: 17px;
-}
 .ag-theme-alpine {
   height: 100%;
   --ag-foreground-color: #09020a !important;
@@ -6846,3 +6843,5 @@ input[class^=ag-][type=range]:disabled {
   opacity: 0.5;
 }
 
+
+/*# sourceMappingURL=https://localhost:8080/assets/visual.css.map*/

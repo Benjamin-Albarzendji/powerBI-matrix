@@ -5,8 +5,8 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 import DialogConstructorOptions = powerbiVisualsApi.extensibility.visual.DialogConstructorOptions;
 var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
-var matrix536CE78271534AA9A8B6B09EF2631846: IVisualPlugin = {
-    name: 'matrix536CE78271534AA9A8B6B09EF2631846',
+var matrix536CE78271534AA9A8B6B09EF2631846_DEBUG: IVisualPlugin = {
+    name: 'matrix536CE78271534AA9A8B6B09EF2631846_DEBUG',
     displayName: 'Matrix',
     class: 'Visual',
     apiVersion: '5.3.0',
@@ -27,6 +27,6 @@ var matrix536CE78271534AA9A8B6B09EF2631846: IVisualPlugin = {
 if (typeof powerbi !== "undefined") {
     powerbi.visuals = powerbi.visuals || {};
     powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-    powerbi.visuals.plugins["matrix536CE78271534AA9A8B6B09EF2631846"] = matrix536CE78271534AA9A8B6B09EF2631846;
+    powerbi.visuals.plugins["matrix536CE78271534AA9A8B6B09EF2631846_DEBUG"] = matrix536CE78271534AA9A8B6B09EF2631846_DEBUG;
 }
-export default matrix536CE78271534AA9A8B6B09EF2631846;
+export default matrix536CE78271534AA9A8B6B09EF2631846_DEBUG;

@@ -46,4 +46,5 @@ export declare class Matrix {
     private static formatSpecificRows;
     private static formatSpecificColumns;
     private static formatTotal;
+    private static onFinishHeightChange;
 }
