@@ -499,7 +499,9 @@ export class Matrix {
 
       // This check is neccessary if calculation groups are used. With normal columns it is undefined, otherwise it has a clear label.
       if (columnDefs[lengthOfColumnDefs - 1]['field'] === undefined) {
-        columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+        if (this.formattingSettings.columnCard.enableTotal.value === true) {
+          columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+        }
       }
     }
 
@@ -1624,7 +1626,6 @@ export class Matrix {
       formattedValue = '';
     }
 
-    console.log(formattedValue, "I'M HERE");
     // Return the formattedValue
     return formattedValue;
   }

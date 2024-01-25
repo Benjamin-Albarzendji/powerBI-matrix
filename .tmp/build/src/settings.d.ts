@@ -78,6 +78,7 @@ declare class ColumnSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     enableAutoWidth: formattingSettings.ToggleSwitch;
     columnWidth: formattingSettings.NumUpDown;
+    enableTotal: formattingSettings.ToggleSwitch;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }

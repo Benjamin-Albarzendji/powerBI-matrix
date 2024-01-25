@@ -33,10 +33,6 @@ import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
 import FormattingSettingsGroup = formattingSettings.Group;
 
-let dataView;
-const sortedDataViewRows = [];
-const sortedDataViewColumns = [];
-
 class ExpansionSettingsCard extends FormattingSettingsCard {
   constructor(name, displayName) {
     super();
@@ -530,10 +526,17 @@ class ColumnSettingsCard extends FormattingSettingsCard {
     value: 100,
   });
 
+  enableTotal = new formattingSettings.ToggleSwitch({
+    name: 'enableTotal',
+    displayName: 'Show Total',
+    value: true,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableAutoWidth,
     this.columnWidth,
+    this.enableTotal,
   ];
 }
 

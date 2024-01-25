@@ -36,8 +36,6 @@ type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
 
 // Own imports
 import { DataViewObjectPropertyReference, Selector } from './common';
-import { MatrixDataviewHtmlFormatter } from './matrixDataviewHtmlFormatter';
-import { SubtotalProperties } from './subtotalProperties';
 import { Matrix } from './Matrix';
 
 export class Visual implements IVisual {

@@ -65341,7 +65341,9 @@ class Matrix {
             const lengthOfColumnDefs = columnDefs.length;
             // This check is neccessary if calculation groups are used. With normal columns it is undefined, otherwise it has a clear label.
             if (columnDefs[lengthOfColumnDefs - 1]['field'] === undefined) {
-                columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+                if (this.formattingSettings.columnCard.enableTotal.value === true) {
+                    columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+                }
             }
         }
         // Updates the columnDefs in the object,
@@ -66154,7 +66156,6 @@ class Matrix {
         if (formattedValue === '(Blank)') {
             formattedValue = '';
         }
-        console.log(formattedValue, "I'M HERE");
         // Return the formattedValue
         return formattedValue;
     }
@@ -66650,9 +66651,6 @@ function getNestedValues(children) {
 
 var FormattingSettingsCard = powerbi_visuals_utils_formattingmodel__WEBPACK_IMPORTED_MODULE_0__/* .SimpleCard */ .sF;
 var FormattingSettingsModel = powerbi_visuals_utils_formattingmodel__WEBPACK_IMPORTED_MODULE_0__/* .Model */ .Hn;
-let dataView;
-const sortedDataViewRows = (/* unused pure expression or super */ null && ([]));
-const sortedDataViewColumns = (/* unused pure expression or super */ null && ([]));
 class ExpansionSettingsCard extends FormattingSettingsCard {
     constructor(name, displayName) {
         super();
@@ -67069,10 +67067,16 @@ class ColumnSettingsCard extends FormattingSettingsCard {
         displayName: 'Column Width',
         value: 100,
     });
+    enableTotal = new powerbi_visuals_utils_formattingmodel__WEBPACK_IMPORTED_MODULE_0__/* .ToggleSwitch */ .Zh({
+        name: 'enableTotal',
+        displayName: 'Show Total',
+        value: true,
+    });
     visible = true;
     slices = [
         this.enableAutoWidth,
         this.columnWidth,
+        this.enableTotal,
     ];
 }
 class colHeadersSettingsCard extends FormattingSettingsCard {
