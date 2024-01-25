@@ -499,8 +499,12 @@ export class Matrix {
 
       // This check is neccessary if calculation groups are used. With normal columns it is undefined, otherwise it has a clear label.
       if (columnDefs[lengthOfColumnDefs - 1]['field'] === undefined) {
-        if (this.formattingSettings.columnCard.enableTotal.value === true) {
-          columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+        // Undefined columns are the Total via the Power BI API
+        columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
+
+        // Hide the column via the API if toggled off
+        if (this.formattingSettings.columnCard.enableTotal.value === false) {
+          columnDefs[lengthOfColumnDefs - 1]['hide'] = true;
         }
       }
     }
@@ -2201,6 +2205,7 @@ export class Matrix {
     rowHeader.style.fontWeight = rowHeaderBold ? 'bold' : 'normal';
     rowHeader.style.fontStyle = rowHeaderItalic ? 'italic' : 'normal';
     rowHeader.style.textIndent = `${card.rowHeaderIndentation.value}px`;
+    rowHeader.style.border = 'none';
 
     // Remove the border from the total row container numerous parents up
     totalRow.parentElement.parentElement.parentElement.style.border = 'none';
