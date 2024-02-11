@@ -27,11 +27,13 @@
 'use strict';
 
 import { formattingSettings } from 'powerbi-visuals-utils-formattingmodel';
-
 import FormattingSettingsCard = formattingSettings.SimpleCard;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
-import FormattingSettingsGroup = formattingSettings.Group;
+
+/**
+ * This class acts as the settings for the formatting model
+ */
 
 class ExpansionSettingsCard extends FormattingSettingsCard {
   constructor(name, displayName) {
@@ -163,7 +165,7 @@ class ExpansionSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   borderOpacity = new formattingSettings.NumUpDown({
@@ -302,7 +304,7 @@ class RowSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
@@ -470,7 +472,7 @@ class RowHeadersSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   indentation: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
@@ -514,6 +516,24 @@ class ColumnSettingsCard extends FormattingSettingsCard {
     this.displayName = displayName;
   }
 
+  wrapHeaders = new formattingSettings.ToggleSwitch({
+    name: 'wrapHeaders',
+    displayName: 'Wrap Text - Headers',
+    value: true,
+  });
+
+  wrapValues = new formattingSettings.ToggleSwitch({
+    name: 'wrapValues',
+    displayName: 'Wrap Text - Cell Contents',
+    value: true,
+  });
+
+  enableDrag = new formattingSettings.ToggleSwitch({
+    name: 'enableDrag',
+    displayName: 'Column Mouse Resize',
+    value: true,
+  });
+
   enableAutoWidth = new formattingSettings.ToggleSwitch({
     name: 'autoSizeColumns',
     displayName: 'Auto Width',
@@ -532,11 +552,28 @@ class ColumnSettingsCard extends FormattingSettingsCard {
     value: true,
   });
 
+  autoHeaderHeight = new formattingSettings.ToggleSwitch({
+    name: 'autoHeaderHeight',
+    displayName: 'Wrap Text - Auto Header Height',
+    value: true,
+  });
+
+  autoRowHeight = new formattingSettings.ToggleSwitch({
+    name: 'autoRowHeight',
+    displayName: 'Wrap Text - Auto Row Height',
+    value: true,
+  });
+
   visible?: boolean = true;
   slices: Array<FormattingSettingsSlice> = [
     this.enableAutoWidth,
     this.columnWidth,
     this.enableTotal,
+    this.enableDrag,
+    this.wrapHeaders,
+    this.autoHeaderHeight,
+    this.wrapValues,
+    this.autoRowHeight,
   ];
 }
 
@@ -683,7 +720,7 @@ class colHeadersSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   visible?: boolean = true;
@@ -754,7 +791,7 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   rowHeaderAlignment = new formattingSettings.ItemDropdown({
@@ -779,7 +816,7 @@ class SpecificRowSettingsCard extends FormattingSettingsCard {
     new formattingSettings.NumUpDown({
       name: 'headerOpacity',
       displayName: 'Background Opacity',
-      value: 100,
+      value: 0,
     });
 
   rowHeaderFontColor = new formattingSettings.ColorPicker({
@@ -981,7 +1018,7 @@ class totalSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   rowHeaderAlignment = new formattingSettings.ItemDropdown({
@@ -1006,7 +1043,7 @@ class totalSettingsCard extends FormattingSettingsCard {
     new formattingSettings.NumUpDown({
       name: 'headerOpacity',
       displayName: 'Background Opacity',
-      value: 100,
+      value: 0,
     });
 
   rowHeaderFontColor = new formattingSettings.ColorPicker({
@@ -1384,14 +1421,14 @@ class SpecificColumnSettingsCard extends FormattingSettingsCard {
   opacity: formattingSettings.NumUpDown = new formattingSettings.NumUpDown({
     name: 'opacity',
     displayName: 'Background Opacity',
-    value: 100,
+    value: 0,
   });
 
   valuesOpacity: formattingSettings.NumUpDown =
     new formattingSettings.NumUpDown({
       name: 'valuesOpacity',
       displayName: 'Values Opacity',
-      value: 100,
+      value: 0,
     });
 
   visible?: boolean = true;
@@ -1433,50 +1470,50 @@ export class VisualFormattingSettingsModel extends FormattingSettingsModel {
   expansionCard = new ExpansionSettingsCard('expansion', 'Row Expansion');
   rowCard = new RowSettingsCard('rows', 'Row Formatting');
   rowHeadersCard = new RowHeadersSettingsCard('rowHeaders', 'Row Headers');
-  columnCard = new ColumnSettingsCard('columns', 'Column Formatting');
+  columnCard = new ColumnSettingsCard('columns', 'General Column Formatting');
   colHeadersCard = new colHeadersSettingsCard('colHeaders', 'Column Headers');
   totalCard = new totalSettingsCard('total', 'Total Row');
 
   specificRowCard1 = new SpecificRowSettingsCard(
     'specificRow0',
-    'Multiple Row Formatting - 1'
+    'Specific Rows - 1'
   );
   specificRowCard2 = new SpecificRowSettingsCard(
     'specificRow1',
-    'Multiple Row Formatting - 2'
+    'Specific Rows - 2'
   );
   specificRowCard3 = new SpecificRowSettingsCard(
     'specificRow2',
-    'Multiple Row Formatting - 3'
+    'Specific Rows - 3'
   );
   specificRowCard4 = new SpecificRowSettingsCard(
     'specificRow3',
-    'Multiple Row Formatting - 4'
+    'Specific Rows - 4'
   );
   specificRowCard5 = new SpecificRowSettingsCard(
     'specificRow4',
-    'Multiple Row Formatting - 5'
+    'Specific Rows - 5'
   );
 
   specificColumnCard0 = new SpecificColumnSettingsCard(
     'specificColumn0',
-    'Multiple Column Formatting - 1'
+    'Specific Columns - 1'
   );
   specificColumnCard1 = new SpecificColumnSettingsCard(
     'specificColumn1',
-    'Multiple Column Formatting - 2'
+    'Specific Columns - 2'
   );
   specificColumnCard2 = new SpecificColumnSettingsCard(
     'specificColumn2',
-    'Multiple Column Formatting - 3'
+    'Specific Columns - 3'
   );
   specificColumnCard3 = new SpecificColumnSettingsCard(
     'specificColumn3',
-    'Multiple Column Formatting - 4'
+    'Specific Columns - 4'
   );
   specificColumnCard4 = new SpecificColumnSettingsCard(
     'specificColumn4',
-    'Multiple Column Formatting - 5'
+    'Specific Columns - 5'
   );
 
   cards = [

@@ -23,6 +23,7 @@ import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnume
 import ISelectionManager = powerbi.extensibility.ISelectionManager;
 import ISelectionId = powerbi.visuals.ISelectionId;
 import ISelectionIdBuilder = powerbi.visuals.ISelectionIdBuilder;
+import IVisualEventService = powerbi.extensibility.IVisualEventService;
 
 // Formatting model
 import { VisualFormattingSettingsModel } from './settings';
@@ -30,13 +31,8 @@ import { VisualFormattingSettingsModel } from './settings';
 // Style sheet
 import './../style/visual.less';
 
-// 3rd party imports imports
-import * as d3 from 'd3';
-type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
-
 // Own imports
-import { DataViewObjectPropertyReference, Selector } from './common';
-import { Matrix } from './Matrix';
+import { Matrix } from './matrix';
 
 export class Visual implements IVisual {
   private target: HTMLElement;
@@ -45,9 +41,10 @@ export class Visual implements IVisual {
   private formattingSettings: VisualFormattingSettingsModel;
   private formattingSettingsService: FormattingSettingsService;
   private selectionManager: ISelectionManager;
+  private events: IVisualEventService;
 
   constructor(options: VisualConstructorOptions) {
-    console.log('Visual constructor', options);
+    // console.log('Visual constructor', options);
     // Formatting Service
     this.formattingSettingsService = new FormattingSettingsService();
 
@@ -58,11 +55,19 @@ export class Visual implements IVisual {
     this.host = options.host;
     this.selectionManager = this.host.createSelectionManager();
 
-    // Do we need this?
+    // Events
+    this.events = options.host.eventService;
+
     this.target.style.overflowY = 'auto';
   }
 
+  /**
+   * Update function that gets called with interaction, data, size, etc.
+   */
+
   public update(options: VisualUpdateOptions) {
+    // Start rendering signal
+    this.events.renderingStarted(options);
     console.log('Selection Manager', this.selectionManager);
     console.log('Update Options', options);
     console.log('Host object', this.host);
@@ -93,16 +98,11 @@ export class Visual implements IVisual {
     }
 
     if (!matrixDataView || !matrixDataView.columns || !matrixDataView.rows) {
-      console.log(!options.dataViews[0].matrix);
-
-      console.log('WE HERE');
-
       Matrix.clearGrid();
       return;
     }
 
     if (options.type === 2 && !options.dataViews[0].matrix) {
-      console.log('we here');
       // Matrix.clearGrid();
     }
 
@@ -111,15 +111,15 @@ export class Visual implements IVisual {
         return;
       }
 
+      // Set the data view
       this.dataView = options.dataViews[0];
 
-      // FIX THIS
+      // Remove the child
       while (this.target.firstChild) {
-        // Matrix.clearGrid()
-
         this.target.removeChild(this.target.firstChild);
       }
 
+      // Append the new child
       this.target.appendChild(
         Matrix.populateMatrixInformation(
           dataView,
@@ -129,6 +129,18 @@ export class Visual implements IVisual {
         )
       );
     }
+
+    // Get the #myGrid element
+    const myDiv = document.getElementById('myGrid');
+
+    // If the element does not exist then rendering has failed
+    if (!myDiv) {
+      this.events.renderingFailed(options);
+      return;
+    }
+
+    // End rendering signal
+    this.events.renderingFinished(options);
   }
 
   /**
@@ -139,6 +151,7 @@ export class Visual implements IVisual {
   public getFormattingModel(): powerbi.visuals.FormattingModel {
     // Toggle the visibility function in cards that have it
     for (const card of this.formattingSettings.cards) {
+      // Try/Catch as some cards do not have such visibility
       try {
         (card as any).visibility();
       } catch {
@@ -146,6 +159,7 @@ export class Visual implements IVisual {
       }
     }
 
+    // Return the formatting model
     return this.formattingSettingsService.buildFormattingModel(
       this.formattingSettings
     );

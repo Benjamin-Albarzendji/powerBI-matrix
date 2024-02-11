@@ -1,101 +1,6 @@
-.datagrid table {
-  border-collapse: collapse;
-  text-align: left;
-  width: 100%;
-}
-.datagrid {
-  font: normal 12px/150% Arial, Helvetica, sans-serif;
-  background: #fff;
-  overflow: scroll;
-  width: 100%;
-  height: 100%;
-  border: 0;
-}
-.datagrid table td,
-.datagrid table th {
-  padding: 3px 10px;
-}
-.datagrid table thead th {
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557f));
-  background: -moz-linear-gradient(center top, #006699 5%, #00557f 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-  background-color: #006699;
-  color: #ffffff;
-  font-size: 15px;
-  font-weight: bold;
-  border-left: 1px solid #0070a8;
-}
-.datagrid table thead th:first-child {
-  border: none;
-}
-.datagrid table tbody td {
-  color: #00557f;
-  border-left: 1px solid #e1eef4;
-  font-size: 12px;
-  font-weight: normal;
-}
-.datagrid table tbody .alt td {
-  background: #e1eef4;
-  color: #00557f;
-}
-.datagrid table tbody td:first-child {
-  border-left: none;
-}
-.datagrid table tbody tr:last-child td {
-  border-bottom: none;
-}
-.datagrid table tfoot td div {
-  border-top: 1px solid #006699;
-  background: #e1eef4;
-}
-.datagrid table tfoot td {
-  padding: 0;
-  font-size: 12px;
-}
-.datagrid table tfoot td div {
-  padding: 2px;
-}
-.datagrid table tfoot td ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  text-align: right;
-}
-.datagrid table tfoot li {
-  display: inline;
-}
-.datagrid table tfoot li a {
-  text-decoration: none;
-  display: inline-block;
-  padding: 2px 8px;
-  margin: 1px;
-  color: #ffffff;
-  border: 1px solid #006699;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 2px;
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #006699), color-stop(1, #00557f));
-  background: -moz-linear-gradient(center top, #006699 5%, #00557f 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#006699', endColorstr='#00557F');
-  background-color: #006699;
-}
-.datagrid table tfoot ul.active,
-.datagrid table tfoot ul a:hover {
-  text-decoration: none;
-  border-color: #00557f;
-  color: #ffffff;
-  background: none;
-  background-color: #006699;
-}
 div.dhtmlx_window_active,
 div.dhx_modal_cover_dv {
   position: fixed !important;
-}
-.line1 {
-  border-bottom: 1px solid #e1eef4;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  order: -5;
 }
 .ag-theme-alpine,
 .ag-theme-balham,
@@ -108,7 +13,7 @@ div.dhx_modal_cover_dv {
   font-size: 13.33px;
 }
 .ag-header-cell:hover {
-  background-color: #4846441b;
+  background-color: #4846441b !important;
 }
 .ag-header-row .ag-header-cell:first-of-type .ag-header-cell-text {
   align-items: center !important;
@@ -126,16 +31,13 @@ div.dhx_modal_cover_dv {
 .ag-header-row {
   border: none !important;
 }
-.ag-header-container {
-  border: none !important;
-}
 .categoryCell {
   text-align: start;
   display: flex !important;
   align-items: center !important;
 }
 .categoryCell:hover {
-  background-color: #4846441b;
+  background-color: #4846441b !important;
 }
 .ag-row {
   overflow: hidden !important;
@@ -158,7 +60,10 @@ div.dhx_modal_cover_dv {
   align-items: center !important;
 }
 .gridCell:hover {
-  background-color: #4846441b;
+  background-color: #4846441b !important;
+}
+.selected {
+  background-color: #4846441b !important;
 }
 .expandButton {
   position: relative;
@@ -184,6 +89,8 @@ div.dhx_modal_cover_dv {
   --ag-header-background-color: #ffffff !important;
   --ag-row-border-style: none !important;
   --ag-border-color: #118dff !important;
+  --ag-selected-row-background-color: #00ff00 !important;
+  --ag-range-selection-highlight-color: #3cbc00 !important;
 }
 
 .ag-icon {
@@ -655,6 +562,7 @@ ag-grid-aurelia {
   -webkit-overflow-scrolling: touch;
 }
 .ag-center-cols-viewport {
+  min-height: 100%;
   width: 100%;
   overflow-x: auto;
 }
@@ -6843,3 +6751,5 @@ input[class^=ag-][type=range]:disabled {
   opacity: 0.5;
 }
 
+
+/*# sourceMappingURL=https://localhost:8080/assets/visual.css.map*/

@@ -2,6 +2,9 @@ import { formattingSettings } from 'powerbi-visuals-utils-formattingmodel';
 import FormattingSettingsCard = formattingSettings.SimpleCard;
 import FormattingSettingsSlice = formattingSettings.Slice;
 import FormattingSettingsModel = formattingSettings.Model;
+/**
+ * This class acts as the settings for the formatting model
+ */
 declare class ExpansionSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
     fontFamily: formattingSettings.FontPicker;
@@ -76,9 +79,14 @@ declare class RowHeadersSettingsCard extends FormattingSettingsCard {
  */
 declare class ColumnSettingsCard extends FormattingSettingsCard {
     constructor(name: any, displayName: any);
+    wrapHeaders: formattingSettings.ToggleSwitch;
+    wrapValues: formattingSettings.ToggleSwitch;
+    enableDrag: formattingSettings.ToggleSwitch;
     enableAutoWidth: formattingSettings.ToggleSwitch;
     columnWidth: formattingSettings.NumUpDown;
     enableTotal: formattingSettings.ToggleSwitch;
+    autoHeaderHeight: formattingSettings.ToggleSwitch;
+    autoRowHeight: formattingSettings.ToggleSwitch;
     visible?: boolean;
     slices: Array<FormattingSettingsSlice>;
 }

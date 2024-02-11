@@ -10,7 +10,11 @@ export declare class Visual implements IVisual {
     private formattingSettings;
     private formattingSettingsService;
     private selectionManager;
+    private events;
     constructor(options: VisualConstructorOptions);
+    /**
+     * Update function that gets called with interaction, data, size, etc.
+     */
     update(options: VisualUpdateOptions): void;
     /**
      * Returns properties pane formatting model content hierarchies, properties and latest formatting values, Then populate properties pane.

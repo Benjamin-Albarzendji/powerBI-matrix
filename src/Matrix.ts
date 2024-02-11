@@ -8,10 +8,11 @@ import ISelectionManager = powerbi.extensibility.ISelectionManager;
 import IVisualHost = powerbi.extensibility.visual.IVisualHost;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
 import { valueFormatter } from 'powerbi-visuals-utils-formattingutils';
-import { line, max } from 'd3';
-import { getMaxWordWidth } from 'powerbi-visuals-utils-formattingutils/lib/src/wordBreaker';
-import { contains } from 'powerbi-visuals-utils-formattingutils/lib/src/stringExtensions';
+import VisualObjectInstance = powerbi.VisualObjectInstance;
 
+/**
+ * The Matrix Class responsible for creating the grid and formatting via ag-grid.
+ */
 export class Matrix {
   // The columnDefs array to hold columns
   static columnDefs: any[] = [];
@@ -23,7 +24,7 @@ export class Matrix {
   static selectionManager: ISelectionManager;
 
   // The powerBI host API
-  static host;
+  static host: IVisualHost;
 
   static pinnedTotalRow;
 
@@ -60,12 +61,17 @@ export class Matrix {
   // A helper array that gets used during the creation of nodes
   static tempRowChildren = [];
 
-  // GRID OPTIONS
+  // The persisted properties
+  static persistedProperties = undefined;
+
+  /**
+   * The grid options!
+   */
   static gridOptions: GridOptions = {
     // Grab the columnDefs
     columnDefs: this.columnDefs,
     // Grab the rowData
-    rowData: this.rowData,
+    rowData: undefined,
 
     // Default rowHeight is 25
     rowHeight: 25,
@@ -75,23 +81,30 @@ export class Matrix {
 
     // Default col def properties get applied to all columns
     defaultColDef: {
-      resizable: false,
+      resizable: true,
       editable: false,
       suppressMovable: true,
+      wrapHeaderText: true,
+      autoHeaderHeight: true,
+      wrapText: true,
+      autoHeight: true,
+      minWidth: 0,
     },
 
     // Prevents the context menu in the browser
     preventDefaultOnContextMenu: true,
 
-    // suppressMaxRenderedRowRestriction:true,
-    // suppressRowVirtualisation: true,
+    // Default row buffer
     rowBuffer: 10,
+
+    // Animate rows as it looks nicer
+    animateRows: false,
 
     // If this is not enabled, the eventlisteners on the columns will not work when you have a lot of columns
     //that warrants a horizontal scroller. This should not be an issue most of the time if performance suffers
     suppressColumnVirtualisation: true,
 
-    //
+    // Does not work with the default theme
     columnHoverHighlight: true,
     suppressRowHoverHighlight: false,
 
@@ -105,8 +118,16 @@ export class Matrix {
       this.selectOnClick(e);
     },
 
+    // When the column is resized, we want to persist the properties
+    onColumnResized: (params) => {
+      // This source is by dragging and only triggered when the dragging is finished
+      if (params.source === 'uiColumnResized' && params.finished) {
+        this.persistPropertiesToAPI();
+      }
+    },
+
     // When the grid is ready do this
-    onGridReady: (params) => {
+    onGridReady: () => {
       //  Sets the event listeners for the headers
       this.addHeaderEventListeners();
 
@@ -121,8 +142,6 @@ export class Matrix {
 
       // Format all the rows
       this.formatRows();
-
-      // Format Total
 
       // Format the expanded rows
       this.formatExpandedRows();
@@ -144,14 +163,19 @@ export class Matrix {
 
       // Format the height change
       this.onFinishHeightChange();
+
+      // Get the persisted properties
+      this.getAndSetPersistedProperties();
+
+      // Allow the visibility to be shown by getting the gridDiv and setting the visibility to visible
+      const gridDiv = document.getElementById('myGrid');
+      gridDiv.style.visibility = 'visible';
     },
 
-    onViewportChanged: (params) => {
+    // When the viewport changes (New rows are added/removed)
+    onViewportChanged: () => {
       // Add expand buttons and format them
       this.AddExpandButtons();
-
-      // Format the columns THIS SHOULD BE DISABLED FOR PERFORMANCE AS IT IS VERY EXPENSIVE TO RUN ON VIEWPORT CHANGES (WHICH HAPPENS A LOT ON SCROLLING)
-      // this.formatColumns(this.gridOptions);
 
       // Format all the rows
       this.formatRows();
@@ -175,125 +199,99 @@ export class Matrix {
       this.onFinishHeightChange();
     },
 
-    // rowSelection: 'multiple', // allow rows to be selected
-    // animateRows: false, // have rows animate to new positions when sorted ////FIXXX????
-    onFirstDataRendered: (params) => {
-      // Auto sizes the columns to fit the cell content rather than content of the container
-      // params.columnApi.autoSizeAllColumns();
-      // this.formatColumns(this.gridOptions);
-      // params.api.sizeColumnsToFit();
-    },
+    /**
+     * END OF GRID OPTIONS
+     */
   };
 
-  // GRID OPTIONS END //
-
-  // Handles the selection on clicks
-  private static async selectOnClick(cell) {
-    console.log('Cell was clicked', cell);
-
-    console.log(this.formattingSettings);
-
-    // Make sure it is not propagating through the expand button (This is due us needing the grid API to be triggered for traversing algorithm information)
-    if (cell.event.target.classList[0] === 'expandButton') {
-      this.startExpansion(cell);
+  /**
+   * Getting the persisted properties and applying them to the grid
+   */
+  public static getAndSetPersistedProperties() {
+    // Check if the persisted properties are undefined
+    if (this.persistedProperties === undefined) {
       return;
     }
 
-    // multiSelect variable
-    let multiSelect = false;
+    // Get the persisted properties
+    const persistedProperties = JSON.parse(
+      this.persistedProperties['colWidth']
+    );
 
-    //Extract the row and column from the cell
-    // Selected row, assuming there are no levels in the dataView
-    let selectedRow;
+    // Apply the persisted properties
+    this.setPersistedProperties(persistedProperties);
+  }
 
-    // Check level length
-    if (this.dataView.matrix.rows.levels.length > 1) {
-      // Traverse through the rowChildren and try to find the value of the row
-      const rowHeader = Object.values(cell.data)[0];
-
-      // When found it becomes selectedRow
-      selectedRow = this.traverseSelection(
-        rowHeader,
-        this.dataView.matrix.rows.root.children
-      );
-    }
-    // Assuming no levels
-    else {
-      // SelectedRow per default value
-      selectedRow = this.rowChildren[cell.rowIndex];
+  /**
+   * Applying the persisted properties
+   */
+  public static setPersistedProperties(props) {
+    // Check if the persisted properties are undefined
+    if (this.persistedProperties === undefined) {
+      return;
     }
 
-    // Selected column
-    const selectedColumn = this.columnChildren[cell.column.colId - 1];
+    // Check if the columnCard enables drag
+    if (this.formattingSettings.columnCard.enableDrag.value === false) {
+      return;
+    }
 
-    console.log(selectedColumn);
-    console.log(selectedRow);
+    // Apply the persisted properties
+    for (const prop of props) {
+      // Get the column
+      const column = this.gridOptions.api.getColumnDef(prop['colId']);
 
-    // Create selectionId
-    const selectionId = this.visualMapping(selectedRow, selectedColumn);
+      // If column is undefined, skip
+      if (column === null || column === undefined) {
+        continue;
+      }
 
-    // Check if right clicked for context menu
-    if (cell.event.type === 'contextmenu') {
-      this.selectionManager.showContextMenu(selectionId, {
-        x: cell.event.clientX,
-        y: cell.event.clientY,
+      // Ensure that the field matches the persisted properties
+      if (column['field'] === prop['field']) {
+        // Apply the column width
+        this.gridOptions.columnApi.setColumnWidths([
+          { key: prop['colId'], newWidth: prop['width'] },
+        ]);
+      }
+    }
+  }
+
+  /**
+   * The persist properties function to save the column width
+   */
+  public static persistPropertiesToAPI() {
+    // Get all columnDefs
+    const allColumnDef = this.gridOptions.api.getColumnDefs();
+
+    // Container
+    const widthArray = [];
+
+    // Loop through all of them
+    for (const colDef of allColumnDef) {
+      // Push object with colId, field and width
+      widthArray.push({
+        colId: colDef['colId'],
+        field: colDef['field'],
+        width: colDef['width'],
       });
-
-      return;
     }
 
-    // Check if multiSelect is true
-    if (cell.event.ctrlKey) {
-      multiSelect = true;
-    }
+    // Create the instance
+    const instance: VisualObjectInstance = {
+      objectName: 'persistedProperties',
+      selector: undefined,
+      properties: {
+        colWidth: JSON.stringify(widthArray),
+      },
+    };
 
-    // Apply the selection
-    this.selectionManager.select(selectionId, multiSelect);
+    // Persist the properties
+    this.host.persistProperties({ merge: [instance] });
   }
 
-  private static traverseSelection(rowHeader, children) {
-    // A sentinel value to stop loops
-    let sentinelValueStop = false;
-
-    // The variable that is to be returned
-    let childToBeReturned;
-
-    // Loop through children until you find the rowheader
-    children.forEach((child) => {
-      // Abort the loop if child is fiund
-      if (sentinelValueStop) {
-        return;
-      }
-
-      // Look for the right child
-      if (child.value === rowHeader) {
-        // If found, set the sentinel value and set the child to the functional scope variable
-        sentinelValueStop = true;
-        childToBeReturned = child;
-
-        // Finish the iteration
-        return childToBeReturned;
-      }
-
-      // Recursively go through the tree if child has not been found and it has children
-      if (child.children && !sentinelValueStop) {
-        // Set the variable
-        childToBeReturned = this.traverseSelection(rowHeader, child.children);
-
-        // If the child is not undefined / null, set the sentinelvalue to stop further iterations
-        if (childToBeReturned) {
-          sentinelValueStop = true;
-        }
-        // Finish the iteration
-        return childToBeReturned;
-      }
-    });
-
-    // Return the child through the recursive chain
-    return childToBeReturned;
-  }
-
-  // The entrance to the class for populating the class
+  /**
+   * Populates the matrix via the Power BI API
+   */
   public static populateMatrixInformation(
     dataView: powerbi.DataView,
     selectionManager,
@@ -324,10 +322,21 @@ export class Matrix {
     // Update the formatting settings
     this.formattingSettings = formattingSettings;
 
+    // Update the persisted properties
+    if (
+      dataView.metadata.objects &&
+      dataView.metadata.objects.persistedProperties
+    ) {
+      this.persistedProperties = dataView.metadata.objects.persistedProperties;
+    }
+
     // Return the formatted matrix
     return this.formatMatrix(dataView);
   }
 
+  /**
+   * The core function for the creation of the matrix
+   */
   private static formatMatrix(dataView: powerbi.DataView) {
     // Clear out the child nodes in case they are already populated
     this.rowChildrenNodes = [];
@@ -349,7 +358,7 @@ export class Matrix {
     const matrix = dataView.matrix;
 
     // Dynamic header on the first column. First we set a let variable due to a try/catch
-    let dynamicHeader: String;
+    let dynamicHeader: string;
 
     // Searches for the first column with the role of Rows and sets the dynamicHeader to that column's display name
     for (const column of dataView.metadata.columns) {
@@ -487,7 +496,7 @@ export class Matrix {
       // Iterates through the column children
       matrix.columns.root.children.forEach((column) => {
         columnDefs.push({
-          field: column.value,
+          field: String(column.value),
           colId: colId++,
           cellClass: 'gridCell',
           cellStyle: gridCellStyling,
@@ -498,7 +507,10 @@ export class Matrix {
       const lengthOfColumnDefs = columnDefs.length;
 
       // This check is neccessary if calculation groups are used. With normal columns it is undefined, otherwise it has a clear label.
-      if (columnDefs[lengthOfColumnDefs - 1]['field'] === undefined) {
+      if (
+        columnDefs[lengthOfColumnDefs - 1]['field'] === undefined ||
+        'Undefined'
+      ) {
         // Undefined columns are the Total via the Power BI API
         columnDefs[lengthOfColumnDefs - 1]['field'] = 'Total';
 
@@ -551,7 +563,8 @@ export class Matrix {
             value.value,
             value.valueSourceIndex === undefined
               ? valueSourcesIndexBackUp
-              : value.valueSourceIndex
+              : value.valueSourceIndex,
+            rowValues
           );
           rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
 
@@ -593,7 +606,8 @@ export class Matrix {
               value.value,
               value.valueSourceIndex === undefined
                 ? valueSourcesIndexBackUp
-                : value.valueSourceIndex
+                : value.valueSourceIndex,
+              rowValues
             );
 
             rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
@@ -606,7 +620,6 @@ export class Matrix {
           // If catch then it is children and we need to recursively loop through them
         } catch {
           // If expand upwards is enabled, then pop it and insert it after loop
-
           let lastItem = null;
 
           if (this.formattingSettings.expansionCard.expandUp.value === true) {
@@ -690,7 +703,7 @@ export class Matrix {
       rowData.push(rowObj);
     });
 
-    console.log(rowData);
+    // console.log(rowData);
 
     // We fix the last row header of "Total" by getting the length of the array and changing the name on the last object. Other wise it will remain blank
     const lengthOfRowData = rowData.length;
@@ -721,6 +734,24 @@ export class Matrix {
     gridOptions['defaultColDef']['width'] =
       this.formattingSettings.columnCard.columnWidth.value;
 
+    // Check if wrapValues and wrapHeaders are enabled, otherwise set to false
+    gridOptions['defaultColDef']['wrapText'] =
+      this.formattingSettings.columnCard.wrapValues.value;
+    gridOptions['defaultColDef']['wrapHeaderText'] =
+      this.formattingSettings.columnCard.wrapHeaders.value;
+
+    // Check if drag is enabled
+    gridOptions['defaultColDef']['resizable'] =
+      this.formattingSettings.columnCard.enableDrag.value;
+
+    // Check if auto row height is enabled
+    gridOptions['defaultColDef']['autoHeight'] =
+      this.formattingSettings.columnCard.autoRowHeight.value;
+
+    // Check if auto header height is enabled
+    gridOptions['defaultColDef']['autoHeaderHeight'] =
+      this.formattingSettings.columnCard.autoHeaderHeight.value;
+
     // Checking if there is a total row to pin to the bottom of the grid
     const total = rowData.pop();
 
@@ -746,6 +777,9 @@ export class Matrix {
     gridDiv.className = 'ag-theme-alpine';
     gridDiv.id = 'myGrid';
 
+    // Set the visibility style to hidden to avoid flickering
+    gridDiv.style.visibility = 'hidden';
+
     // Creates the final Grid
     new agGrid.Grid(gridDiv, gridOptions);
 
@@ -758,7 +792,9 @@ export class Matrix {
     return gridDiv;
   }
 
-  // Recursive function to traverse through the child nodes
+  /**
+   * Recursive function to traverse child nodes
+   */
   private static async traverseChildNodes(
     child,
     columnDefs,
@@ -816,12 +852,12 @@ export class Matrix {
     try {
       // Loop through last level of children and insert into rowObj
       Object.values(rowValues).forEach((value) => {
-        console.log(value['valueSourceIndex']);
         const valueFormatted = this.valueFormatterMatrix(
           value['value'],
           value['valueSourceIndex'] === undefined
             ? valueSourcesIndexBackUp
-            : value['valueSourceIndex']
+            : value['valueSourceIndex'],
+          rowValues
         );
 
         rowObj[Object(columnDefs)[index]['field']] = valueFormatted;
@@ -905,7 +941,144 @@ export class Matrix {
     }
   }
 
-  // Adds the body event listeners
+  /**
+   * Handles the selection on clicks
+   */
+  private static async selectOnClick(cell) {
+    // console.log('Cell was clicked', cell);
+
+    // console.log(this.formattingSettings);
+
+    // Make sure it is not propagating through the expand button (This is due us needing the grid API to be triggered for traversing algorithm information)
+    if (cell.event.target.classList[0] === 'expandButton') {
+      this.startExpansion(cell);
+      return;
+    }
+
+    // multiSelect variable
+    let multiSelect = false;
+
+    // Extract the row and column from the cell
+    // Selected row, assuming there are no levels in the dataView
+    let selectedRow;
+
+    // Check level length
+    if (this.dataView.matrix.rows.levels.length > 1) {
+      // Traverse through the rowChildren and try to find the value of the row
+      const rowHeader = Object.values(cell.data)[0];
+
+      // When found it becomes selectedRow
+      selectedRow = this.traverseSelection(
+        rowHeader,
+        this.dataView.matrix.rows.root.children
+      );
+    }
+    // Assuming no levels
+    else {
+      // SelectedRow per default value
+      selectedRow = this.rowChildren[cell.rowIndex];
+    }
+
+    // Selected column
+    const selectedColumn = this.columnChildren[cell.column.colId - 1];
+
+    // console.log(selectedColumn);
+    // console.log(selectedRow);
+
+    // Create selectionId
+    const selectionId = this.visualMapping(selectedRow, selectedColumn);
+
+    // Check if right clicked for context menu
+    if (cell.event.type === 'contextmenu') {
+      this.selectionManager.showContextMenu(selectionId, {
+        x: cell.event.clientX,
+        y: cell.event.clientY,
+      });
+
+      return;
+    }
+
+    // Check if multiSelect is true
+    if (cell.event.ctrlKey) {
+      multiSelect = true;
+    }
+
+    // Get the selected class and turn it off
+    const selected = document.querySelector('.selected');
+
+    // Get the cell via the event path and color it to show it is selected
+    let cellElement = cell.eventPath[0] as HTMLElement;
+
+    // Check if cell contains class "gridCell" or "categoryCell"
+    if (
+      !cellElement.classList.contains('gridCell') &&
+      !cellElement.classList.contains('categoryCell')
+    ) {
+      cellElement = cell.eventPath[2] as HTMLElement;
+    }
+
+    // Add the selected class if class does not contain selected and remove the previously selected
+    if (!cellElement.classList.contains('selected')) {
+      cellElement.classList.add('selected');
+      if (selected) {
+        selected.classList.remove('selected');
+      }
+    } else {
+      cellElement.classList.remove('selected');
+    }
+
+    // Apply the selection
+    this.selectionManager.select(selectionId, multiSelect);
+  }
+
+  /**
+   * Traversing the selection
+   */
+  private static traverseSelection(rowHeader, children) {
+    // A sentinel value to stop loops
+    let sentinelValueStop = false;
+
+    // The variable that is to be returned
+    let childToBeReturned;
+
+    // Loop through children until you find the rowheader
+    children.forEach((child) => {
+      // Abort the loop if child is fiund
+      if (sentinelValueStop) {
+        return;
+      }
+
+      // Look for the right child
+      if (child.value === rowHeader) {
+        // If found, set the sentinel value and set the child to the functional scope variable
+        sentinelValueStop = true;
+        childToBeReturned = child;
+
+        // Finish the iteration
+        return childToBeReturned;
+      }
+
+      // Recursively go through the tree if child has not been found and it has children
+      if (child.children && !sentinelValueStop) {
+        // Set the variable
+        childToBeReturned = this.traverseSelection(rowHeader, child.children);
+
+        // If the child is not undefined / null, set the sentinelvalue to stop further iterations
+        if (childToBeReturned) {
+          sentinelValueStop = true;
+        }
+        // Finish the iteration
+        return childToBeReturned;
+      }
+    });
+
+    // Return the child through the recursive chain
+    return childToBeReturned;
+  }
+
+  /**
+   * Adds the body event listeners
+   */
   private static addBodyEventListeners() {
     // Get the grid body
     const gridBody = document.getElementsByClassName('ag-body-viewport');
@@ -939,7 +1112,9 @@ export class Matrix {
     });
   }
 
-  // Event listeners for the headers
+  /**
+   * Event listeners for the headers
+   */
   private static async addHeaderEventListeners() {
     // Get the header elements (Important to await!)
     const headerElements = await document.querySelectorAll(
@@ -983,11 +1158,6 @@ export class Matrix {
         this.dataView.matrix.valueSources.length > 1 ||
         this.dataView.matrix.columns.root.children.length == 1
       ) {
-        // Return if event listener has already been applied
-        // if (allMeasuresListened) {
-        //   return;
-        // }
-
         // Put value sources in, -1 as the index will be n+1 by the time it comes here due to returning from the first column
         const dataSource = this.dataView.matrix.valueSources[index - 1];
 
@@ -1009,7 +1179,7 @@ export class Matrix {
         )[0].textContent;
 
         // Check if it is "Total"
-        if (headerLabel === 'Total') {
+        if (headerLabel === 'Total' || headerLabel.includes('Invalid')) {
           // Get the row query name to sort
           const dataSource = this.dataView.matrix.valueSources[0];
 
@@ -1048,6 +1218,9 @@ export class Matrix {
     });
   }
 
+  /**
+   * Adds the context menu event listeners
+   */
   private static addContextMenuEventListener(element) {
     // Adding the context menu on every column header
     element.addEventListener('contextmenu', (e) => {
@@ -1063,7 +1236,9 @@ export class Matrix {
     });
   }
 
-  // Add the sorting header event listener
+  /**
+   * Adds the sorting event listeners
+   */
   private static addSortingEventlistener(element, source) {
     element.addEventListener('click', (e) => {
       // Get the row query name to sort
@@ -1113,77 +1288,9 @@ export class Matrix {
     return nodeSelection;
   }
 
-  // Loop through the children tree to find the proper parent-child relationship
-  private static expansionTraverser(row) {
-    // Deconstruct dataview into the child nodes
-    const childrenNodes = this.dataView.matrix.rows.root.children;
-
-    // Parent Node Array
-    const parentNodes = [];
-
-    // Loop through the children
-    for (const node of childrenNodes) {
-      // If row is the node, then append and return
-      if (row.value === node.value) {
-        parentNodes.push(node);
-        break;
-      }
-
-      // If not, and it the flag isCollapsed = false, then go deeper, assuming we are not dealing with a level 0 and it is collapsed, i.e first row
-      if (row.level !== 0 && row.isCollapsed === true) {
-        if (node.isCollapsed === false) {
-          console.log('AM H IHERE THO?');
-          const childNodes = this.expansionTraverserHelper(
-            node.children,
-            row.value
-          );
-
-          parentNodes.push(node);
-          try {
-            parentNodes.push(...childNodes);
-          } catch {
-            parentNodes.push(childNodes);
-          }
-          console.log(node, 'originalNode');
-          console.log(childNodes);
-        }
-      }
-    }
-
-    // Return it all
-    return parentNodes;
-  }
-
-  // A helper recursive algorithm for the expansionTraverser
-  private static expansionTraverserHelper(children, rowValue) {
-    console.log('HERE???????????');
-    // Holder of nodes
-    const parentNodes = [];
-
-    // Loop through the children
-
-    for (const node of children) {
-      if (node.value === rowValue) {
-        return node;
-        break;
-      }
-
-      // If not, and it the flag isCollapsed = false, then go deeper
-      if (node.isCollapsed === false) {
-        const nodes = this.expansionTraverserHelper(node.children, rowValue);
-
-        console.log(nodes, 'THE NODES');
-        console.log(node, 'THE SINGULAR NODE');
-        try {
-          return [node, ...nodes];
-        } catch {
-          return [node, nodes];
-        }
-      }
-    }
-  }
-
-  // This functions creates the mapping for the row expansion
+  /**
+   * This functions creates the mapping for the row expansion
+   */
   private static rowMapping(nodeLineage) {
     // Create the selectionbuilder
     const nodeSelectionBuilder = this.host.createSelectionIdBuilder();
@@ -1199,7 +1306,9 @@ export class Matrix {
     return nodeSelectionId;
   }
 
-  // This adds the expand buttons for every row
+  /**
+   *  This adds the expand buttons for every row
+   */
   private static AddExpandButtons() {
     // Check if addButtons is in the formattingSetting card otherwise return
     if (this.formattingSettings.expansionCard.enableButtons.value === false) {
@@ -1256,7 +1365,9 @@ export class Matrix {
     }
   }
 
-  // This function enables the button to expand up and down
+  /**
+   *  This function enables the button to expand up and down
+   */
   private static startExpansion(cell) {
     // Get the selectedRow
 
@@ -1269,9 +1380,11 @@ export class Matrix {
     this.selectionManager.toggleExpandCollapse(selectionID);
   }
 
-  // This functions formats the expanded rows.
+  /**
+   * This functions formats the expanded rows.
+   */
   private static formatExpandedRows() {
-    console.log(this.formattingSettings);
+    // console.log(this.formattingSettings);
 
     // IF checks to make sure function is not running needlessly
     if (
@@ -1433,7 +1546,9 @@ export class Matrix {
     }
   }
 
-  // Format the rows to get a filled background color. The function was reduced from a more complex function as the rest was integrated into the grid
+  /**
+   * Format the rows to get a filled background color. The function was reduced from a more complex function as the rest was integrated into the grid
+   */
   private static formatRows() {
     // Get all the rows
     const rows = document.querySelectorAll('.ag-row');
@@ -1472,6 +1587,9 @@ export class Matrix {
     }
   }
 
+  /**
+   * Format the row headers
+   */
   private static formatRowHeaders() {
     // Check that rowHeaders card is enabled
     if (this.formattingSettings.rowHeadersCard.enableCard.value === false) {
@@ -1531,16 +1649,22 @@ export class Matrix {
     }
   }
 
-  // The column formatter
+  /**
+   * Format the columns
+   */
   private static formatColumns(gridApi) {
+    // Disable persisted properties
+
     // Check if auto width is enabled
     if (this.formattingSettings.columnCard.enableAutoWidth.value === true) {
       gridApi.columnApi.autoSizeAllColumns();
     }
   }
 
-  // This function acts as the value formatter for every row value
-  private static valueFormatterMatrix(value, valueSourceIndex) {
+  /**
+   * THe value formatter for the matrix
+   */
+  private static valueFormatterMatrix(value, valueSourceIndex, row) {
     // Get the value sources from the dataView
     const valueSources = this.dataView.matrix.valueSources;
 
@@ -1549,6 +1673,7 @@ export class Matrix {
       valueSourceIndex = 0;
     }
 
+    // Declare the variables for use later
     let formatString;
     let valueSource;
 
@@ -1568,55 +1693,28 @@ export class Matrix {
     // Get the format string
     formatString = valueSource.format;
 
-    // If the attempt fails (as in undefined) then it means the project is using dynamic font strings and must search in different place
-    if (formatString === undefined) {
-      try {
-        // Get the length of the children. You have to play around with the length as the first row, for some reason, lacks formatting strings
-        let length = this.dataView.matrix.rows.root.children.length;
-
-        // Length check to ensure we never go out of bounds (As the first row lacks a format string if there are several rows)
-        if (length > 1) {
-          length = 1;
-        } else {
-          length = 0;
-        }
-
-        // Ensure there is a values property
-        if (
-          this.dataView.matrix.rows.root.children[length].hasOwnProperty(
-            'values'
-          )
-        ) {
-          formatString =
-            this.dataView.matrix.rows.root.children[length].values[
-              valueSourceIndex
-            ].objects.general.formatString;
-        } else {
-          // Get the nested values
-          const values = getNestedValues(
-            this.dataView.matrix.rows.root.children
-          );
-
-          formatString = values[valueSourceIndex].objects.general.formatString;
-        }
-
-        if (
-          formatString === undefined ||
-          formatString === null ||
-          formatString === ''
-        ) {
-          formatString = '0.00';
-        }
-      } catch {
-        // If the formatString is undefined OR NULL (Which happens if an implicit measure OR the measure is set to automatic) then set to the default formatString
-        if (
-          formatString === undefined ||
-          formatString === null ||
-          formatString === ''
-        ) {
-          formatString = '0.00';
-        }
+    try {
+      // If the attempt fails (as in undefined) then it means the project is using dynamic font strings and must search in different place
+      if (formatString === undefined) {
+        formatString = row[valueSourceIndex].objects.general.formatString;
       }
+    } catch {
+      // If the formatString is undefined OR NULL (Which happens if an implicit measure OR the measure is set to automatic) then set to the default formatString
+      if (
+        formatString === undefined ||
+        formatString === null ||
+        formatString === ''
+      ) {
+        formatString = '0.0';
+      }
+    }
+    // Ensure the formatString has a format
+    if (
+      formatString === undefined ||
+      formatString === null ||
+      formatString === ''
+    ) {
+      formatString = '0.0';
     }
 
     // Create the value formatter with the formatString
@@ -1634,7 +1732,9 @@ export class Matrix {
     return formattedValue;
   }
 
-  // Formats the column headers
+  /**
+   * Format the column headers
+   */
   private static formatColHeaders() {
     // Check that rowHeaders card is enabled
     if (this.formattingSettings.colHeadersCard.enableCard.value === false) {
@@ -1707,7 +1807,7 @@ export class Matrix {
         this.formattingSettings.colHeadersCard.opacity.value
       );
 
-      const rowContainerParent = rowContainer.parentElement.parentElement
+      const rowContainerParent = rowContainer.parentElement
         .parentElement as HTMLElement;
 
       // Set the row font
@@ -1751,10 +1851,17 @@ export class Matrix {
       }
     }
   }
-
+  /**
+   * Format specific rows
+   */
   private static formatSpecificRows() {
     // Get all the categoryCells
     const categoryCells = document.querySelectorAll('.categoryCell');
+
+    // If categoryCells is null, return
+    if (categoryCells === null) {
+      return;
+    }
 
     // Loop through the formatting settings cards array
     for (const card of this.formattingSettings.cards) {
@@ -1872,8 +1979,11 @@ export class Matrix {
           // Get the row node
           const rowNode = this.gridOptions.api.getRowNode(rowId);
 
-          // Set the row height via the grid API
-          rowNode.setRowHeight(height);
+          // Ensure rowNode is not undefined otherwise the application fails
+          if (rowNode != undefined) {
+            // Set the row height via the grid API
+            rowNode.setRowHeight(height);
+          }
 
           // Set the top border
           row.style.borderTop = topBorder
@@ -1938,7 +2048,9 @@ export class Matrix {
     }
   }
 
-  // The function to format specific columns
+  /**
+   * Format specific columns
+   */
   private static formatSpecificColumns() {
     const headerCells = Object(
       document.querySelectorAll('.ag-header-cell-text')
@@ -2092,6 +2204,10 @@ export class Matrix {
       }
     }
   }
+
+  /**
+   * Format the Total Row
+   */
   private static formatTotal() {
     // Get all the categoryCells
     const totalRow = document.querySelector('.ag-row-pinned') as HTMLElement;
@@ -2191,6 +2307,11 @@ export class Matrix {
       card.opacity.value
     )} ${rowHeaderWidth}px)`;
 
+    // Check if rowHeader includes invalid
+    if (rowHeader.textContent.includes('Invalid')) {
+      rowHeader.textContent = 'Total';
+    }
+
     // Apply the custom label
     rowHeader.textContent =
       rowHeader.textContent === 'Total'
@@ -2267,31 +2388,18 @@ export class Matrix {
     }
   }
 
-  // Reorganies the grid after height changes via the API
+  /**
+   * Reorganies the grid after height changes via the API
+   */
   private static onFinishHeightChange() {
     this.gridOptions.api.onRowHeightChanged();
   }
 }
 
-// HEX TO RGBA CONVERTER FUNCTION
+/**
+ * HEX to RGBA converter
+ */
 function hex2rgba(hex, alpha = 1) {
   const [r, g, b] = hex.match(/\w\w/g).map((x) => parseInt(x, 16));
   return `rgba(${r},${g},${b},${alpha / 100})`;
-}
-
-function getNestedValues(children) {
-  let skip = true;
-  for (const child of children) {
-    if (child.hasOwnProperty('values')) {
-      return child.values;
-    }
-
-    if (child.hasOwnProperty('children')) {
-      if (skip && children.length > 1) {
-        skip = false;
-        continue;
-      }
-      return getNestedValues(child.children);
-    }
-  }
 }

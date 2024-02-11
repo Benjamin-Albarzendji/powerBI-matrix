@@ -54,11 +54,6 @@
         "columns": {
           "for": {
             "in": "Columns"
-          },
-          "dataReductionAlgorithm": {
-            "top": {
-              "count": 200
-            }
           }
         },
         "values": {
@@ -576,11 +571,49 @@
       }
     },
 
+    "persistedProperties": {
+      "properties": {
+        "colWidth": {
+          "type": {
+            "text": true
+          }
+        }
+      }
+    },
+
     "columns": {
       "properties": {
+        "wrapHeaders": {
+          "type": {
+            "bool": true
+          }
+        },
 
-        "enableTotal":
-        {
+        "autoHeaderHeight": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "autoRowHeight": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableDrag": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "wrapValues": {
+          "type": {
+            "bool": true
+          }
+        },
+
+        "enableTotal": {
           "type": {
             "bool": true
           }

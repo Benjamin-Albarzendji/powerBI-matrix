@@ -8,7 +8,7 @@
 				"file": "resources/matrix536CE78271534AA9A8B6B09EF2631846.pbiviz.json"
 			}
 		],
-		"visual": {"name":"matrix","displayName":"Matrix","guid":"matrix536CE78271534AA9A8B6B09EF2631846","visualClassName":"Visual","version":"1.0.0.0","description":"A table visual with a high level of customization.","supportUrl":"www.gitHub.com/benjamin-albarzendji","gitHubUrl":""},
+		"visual": {"name":"customizedMatrix","displayName":"Customizable Matrix","guid":"matrix536CE78271534AA9A8B6B09EF2631846","visualClassName":"Visual","version":"1.0.0.0","description":"A matrix visual with a high level of customization.","supportUrl":"www.gitHub.com/benjamin-albarzendji","gitHubUrl":"www.gitHub.com/benjamin-albarzendji"},
 		"metadata": {
 			"pbivizjson": {
 				"resourceId": "rId0"
