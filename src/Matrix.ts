@@ -424,9 +424,16 @@ export class Matrix {
 
     // A singular measure (or multiple measures) without any columns or rows
     if (
-      !matrix.columns.root.hasOwnProperty('childIdentityFields') &&
-      !matrix.rows.root.hasOwnProperty('childIdentityFields')
+      !Object.prototype.hasOwnProperty.call(
+        matrix.columns.root,
+        'childIdentityFields'
+      ) &&
+      !Object.prototype.hasOwnProperty.call(
+        matrix.rows.root,
+        'childIdentityFields'
+      )
     ) {
+      console.log('WOWWWW');
       // Loop through the valueSources
       matrix.valueSources.forEach((source) => {
         // Push into columnDefs
